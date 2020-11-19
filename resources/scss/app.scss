@@ -1,0 +1,17 @@
+html {
+    font-family: Arial;
+    color: green;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+
+    nav {
+        display: flex;
+
+        a {
+            margin: 0 1em;
+        }
+    }
+}
