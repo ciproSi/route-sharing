@@ -49,6 +49,8 @@ class RouteController extends Controller
         $route = new Route;
         $route->name = $route_name;
         $route->url = $name_to_be_saved;
+        $route->lat = $start_coordinates[0];
+        $route->lon = $start_coordinates[1];
         $route->length = $stats['distance'];
         $route->elevation_gain = $stats['cumulativeElevationGain'];
         $route->save();
@@ -138,8 +140,6 @@ class RouteController extends Controller
                 $lat = substr($line, strpos($line, 'lat') + 5, 9);
                 $lon = substr($line, strpos($line, 'lon') + 5, 9);
                 array_push($start_coordinates, $lat, $lon);          
-
-                var_dump($start_coordinates);
 
                 $loop = false;
             }

@@ -14,8 +14,8 @@ class AddColumnsLatLonToRoutesTable extends Migration
     public function up()
     {
         Schema::table('routes', function (Blueprint $table) {
-            $table->unsignedInteger('lat')->nullable();
-            $table->unsignedInteger('lon')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('lon')->nullable();
         });
     }
 
