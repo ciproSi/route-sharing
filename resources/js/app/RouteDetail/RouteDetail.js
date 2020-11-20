@@ -24,9 +24,6 @@ const RouteDetail = () => {
         fetchData();
     }, []);
 
-    const centerCoordinates = [15.192371159791946, 50.75322702527046],
-        zoom = 15;
-
     return (
         <div className="route-detail-container">
         {
@@ -47,7 +44,7 @@ const RouteDetail = () => {
                     </div>
 
                     <div className="map-container">
-                        <DisplayMapWithRoute zoom={zoom} url={'/storage/gpx/' + data.route.url} centerCoordinates={centerCoordinates} />
+                        <DisplayMapWithRoute zoom='13' url={'/storage/gpx/' + data.route.url} centerCoordinates={[data.route.lon, data.route.lat]} />
                     </div>
                     </>
                 )
