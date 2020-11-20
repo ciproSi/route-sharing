@@ -35,11 +35,15 @@ class RouteController extends Controller
         //unique name of the gpx file based on time() and route name (url endoded) with original extension (which needs to be gpx)
         $name_to_be_saved = Str::slug($route_name) . '_' . microtime(true) . '.' . $original_extension;
         $path = $request->file('GPXFile')->storeAs('public/gpx', $name_to_be_saved);
-        
+        $gpx_file_url = './storage/gpx/' . $name_to_be_saved;
+
         // parsing gpx file to get length and cumulative elevation
         $gpx = new phpGPX();
-        $file = $gpx->load('./storage/gpx/' . $name_to_be_saved);
+        $file = $gpx->load($gpx_file_url);
         $stats = $file->tracks[0]->stats->toArray();
+
+        // find the first trackpoint of the route
+        $start_coordinates = $this->getStartCoordinates($gpx_file_url);
 
         // saving the route to db
         $route = new Route;
@@ -115,6 +119,35 @@ class RouteController extends Controller
 
         return response(compact('route', 'activities', 'path'), 200)
                   ->header('Content-Type', 'application/json');
+    }
+
+    private function getStartCoordinates($file_url)
+    {
+        $file_handle = fopen($file_url, 'r');
+        $startCoordinates = [];
+
+        do {
+            $loop = true;
+            $start_coordinates = [];
+            $line = fgets($file_handle);
+            
+            $res = strpos($line, '<trkpt lat="');
+            
+            // stop the looping while we find first occurence of track point, save the lat and lon
+            if ($res) {
+                $lat = substr($line, strpos($line, 'lat') + 5, 9);
+                $lon = substr($line, strpos($line, 'lon') + 5, 9);
+                array_push($start_coordinates, $lat, $lon);          
+
+                var_dump($start_coordinates);
+
+                $loop = false;
+            }
+
+        } while ($loop);
+
+        fclose($file_handle);
+        return $start_coordinates;
     }
 
 }
