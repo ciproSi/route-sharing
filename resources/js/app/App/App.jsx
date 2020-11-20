@@ -9,6 +9,7 @@ import Profile from '../Profile/Profile.jsx';
 import ApiClient from '../ApiClient.js';
 import axios from 'axios';
 import GPXUploadForm from '../GPXUploadForm/GPXUploadForm'; 
+import RouteDetail from '../RouteDetail/RouteDetail.js';
 
 export default function App() {
 
@@ -51,6 +52,7 @@ export default function App() {
                         <Route path="/register" children={<Register/>}/>
                         <Route path="/profile" children={<Profile user={ user }/>}/>
                         <Route path="/new-route" children={ <GPXUploadForm /> } />
+                        <Route path="/route/:id" children={<RouteDetail /> } />
                     </Switch>
                 </main>
             </Router>

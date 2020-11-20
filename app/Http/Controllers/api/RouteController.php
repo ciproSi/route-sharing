@@ -64,6 +64,15 @@ class RouteController extends Controller
                   ->header('Content-Type', 'application/json');
     }
 
+    public function getAll ()
+    {
+        $routes = Route::get();
+
+        return response(compact('routes'), 200)
+                  ->header('Content-Type', 'application/json');
+
+    }
+    
     // API called to update existing route - gpx file, elevation and distance can't be updated here!
     public function update ($id, Request $request)
     {
