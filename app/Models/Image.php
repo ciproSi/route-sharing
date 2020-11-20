@@ -10,6 +10,10 @@ class Image extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title',
+                           'author'
+                           ];
+
     public function route()
     {
         return $this->belongsTo(Route::class);

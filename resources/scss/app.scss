@@ -1,17 +1,24 @@
-html {
-    font-family: Arial;
-    color: green;
+.page-container {
+    width: 80%;
+    margin: 0 auto;
 }
 
-header {
+.map {
+    height: 100vw;
+    width: 100vw;
+  }
+
+.new-route-form {
     display: flex;
-    justify-content: space-between;
-
-    nav {
-        display: flex;
-
-        a {
-            margin: 0 1em;
-        }
+    
+    .route-details-container {
+        width: 50vw;
     }
+    .map-container {
+        width: 50vw;
+    }
+}
+
+.checkbox-group {
+    display: flex;
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePointOfInterestsTable extends Migration
+class CreateRoutesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreatePointOfInterestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('point_of_interests', function (Blueprint $table) {
+        Schema::create('routes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('route_id');
-            $table->string('name', 127);
-            $table->string('description');
-            $table->string('img')->nullable();
-            $table->string('gps');
+            $table->string('name');
+            $table->string('url');
+            $table->unsignedBigInteger('length')->nullable();
+            $table->unsignedBigInteger('elevation_gain')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreatePointOfInterestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('point_of_interests');
+        Schema::dropIfExists('routes');
     }
 }

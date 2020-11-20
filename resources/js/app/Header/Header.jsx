@@ -14,6 +14,7 @@ export default function Header({ user, fetchUser }) {
                     user !== null ? (
                         <>
                         <Link to="/profile">{ user.name }</Link>
+                        <Link to="/new-route">New route</Link>
                         <Logout fetchUser={ fetchUser } />
                         </>
                     ) : (

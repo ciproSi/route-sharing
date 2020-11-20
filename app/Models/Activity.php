@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Route;
 
-class PointOfInterest extends Model
+class Activity extends Model
 {
     use HasFactory;
 
-    public function route()
+    public function routes ()
     {
-        return $this->belongsTo(Route::class);
+        return $this->belongsToMany(Route::class);
     }
 }
