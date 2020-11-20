@@ -79,7 +79,6 @@ const NewRouteDetails = (props) => {
         const response = await axios.post('/route/' + props.data.id, fd);
         
         if (response.status === 200) {
-            console.log(response.status)
             setRedirect('/');
         }
 
