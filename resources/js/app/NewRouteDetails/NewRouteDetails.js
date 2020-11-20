@@ -85,47 +85,47 @@ const NewRouteDetails = (props) => {
 
     }
 
-    // if (redirect) {
-    //     return (
-    //         <Redirect to={redirect} />
-    //     )
-    // } else {
-    return (
-        <div className="form">
-            <form action="/new-route" onSubmit={ handleSubmit } >
-                
-                <div className="form-group">
-                    <label htmlFor="difficulty">Difficulty (1-5)</label>
-                    <input type="text" name="difficulty" onChange={ handleChange }/>
-                </div>
-                
-                <div className="form-group">
-                    <label htmlFor="description">Description</label>
-                    <textarea name="description" rows="8" cols="60" onChange={ handleChange } />
-                </div>
-                
-                <h3>Suitable for</h3>
-                {/* adds one checkbox for every activity */}
-                <Checkbox checkboxes={ activities} handleChange={ handleCheckBoxChange }/>
+    if (redirect) {
+        return (
+            <Redirect to={redirect} />
+        )
+    } else {
+        return (
+            <div className="form">
+                <form action="/new-route" onSubmit={ handleSubmit } >
+                    
+                    <div className="form-group">
+                        <label htmlFor="difficulty">Difficulty (1-5)</label>
+                        <input type="text" name="difficulty" onChange={ handleChange }/>
+                    </div>
+                    
+                    <div className="form-group">
+                        <label htmlFor="description">Description</label>
+                        <textarea name="description" rows="8" cols="60" onChange={ handleChange } />
+                    </div>
+                    
+                    <h3>Suitable for</h3>
+                    {/* adds one checkbox for every activity */}
+                    <Checkbox checkboxes={ activities} handleChange={ handleCheckBoxChange }/>
 
-                <div className="form-group">
-                    <label htmlFor="visibility">Route visibility:</label>
-                        <select id="visibility" name="visibility" onChange={ handleChange }>
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                        </select>
-                </div>
+                    <div className="form-group">
+                        <label htmlFor="visibility">Route visibility:</label>
+                            <select id="visibility" name="visibility" onChange={ handleChange }>
+                                <option value="public">Public</option>
+                                <option value="private">Private</option>
+                            </select>
+                    </div>
 
-                <div className="form-group">
-                        <label htmlFor="route_image">Choose route picture</label>
-                        <input type="file" name="route_images" onChange={ handleFileChange }/>
-                </div>
+                    <div className="form-group">
+                            <label htmlFor="route_image">Choose route picture</label>
+                            <input type="file" name="route_images" onChange={ handleFileChange }/>
+                    </div>
 
-                <button>Save new route</button>
-            </form>
-        </div>
-    )
-    
+                    <button>Save new route</button>
+                </form>
+            </div>
+        )
+    }
 }
 
 export default NewRouteDetails;
