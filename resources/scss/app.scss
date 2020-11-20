@@ -22,3 +22,31 @@
 .checkbox-group {
     display: flex;
 }
+
+.route-detail-container {
+    display: flex;
+
+    .route-data-container {
+        width: 50vw;
+    
+        .route-data {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            &__name {
+                font-size: 1.5em;
+            }
+    
+            &__item {
+                font-weight: bold;            
+            }
+        }
+    }
+    
+    
+    
+    .map-container {
+        width: 50vw;
+    }
+
+}
