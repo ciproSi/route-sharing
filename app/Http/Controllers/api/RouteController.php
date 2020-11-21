@@ -10,7 +10,6 @@ use App\Models\Route;
 use App\Models\Activity;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
-
 class RouteController extends Controller
 {
     
@@ -86,38 +85,50 @@ class RouteController extends Controller
         // TO DO: validation needs to be finished!
         $this->validate($request, [
             'difficulty' => 'required | numeric | min:1 | max: 5',
-            'description' => 'string',
-            'routeImage' => 'required | mimes:jpeg,bmp,png,jpg'
+            'description' => 'string'
         ]);
 
         //TO DO: image uploads needs to be finished - resizing
-        //save route img on server
-        $path = $request->file('routeImage')->store('public/users-images');
-
-        // save path to image to db, source is to determine if the image was uploaded by author or by somebody writing review of route
-        $image = new Image;
-        $image->img_url = $path;
-        $image->route_id = $id;
-        $image->source = 'author';
-        $image->save();
         
+        //save route imgs on server and filesname to DB
+        $images = $request->file('routeImages');    
+        $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
+        
+        if ($request->hasFile('routeImages')) {
+            
+            // validation for images (file extension)
+            foreach ($images as $image) {
+                $original_extension = $image->getClientOriginalExtension();
+                
+                if (in_array($original_extension, $allowed_extensions) === false) {
+                    return response('Invalid file type.', 400)
+                        ->header('Content-Type', 'application/json');
+                }
+            }
+
+            // saving of images
+            foreach ($images as $image) {
+                $path = $image->store('public/users-images');
+                $image = new Image;
+                $image->img_url = $path;
+                $image->route_id = $id;
+                $image->source = 'author';
+                $image->save();
+            }
+        }
+        
+        
+        // Croppa::render(Croppa::url($path, 800, null));
+
         $route = Route::findOrFail($id);
         $route->description = $request->input('description');
         $route->visibility = $request->input('visibility');
         $route->difficulty = $request->input('difficulty');
-
-        // $route->images()->saveMany([
-        //     new Image(['img_url' => $path, 'source' => 'author']),
-        // ]);
-
         $route->save();
 
         // we are getting activities as json encoded array, we need to decode it first to pass it then directly do sync()
         $activities = json_decode($request->input('activities'));
         $route->activities()->sync($activities);
-
-        //save route img
-        $path = $request->file('routeImage')->store('public/users-images');
 
         return response(compact('route', 'activities', 'path'), 200)
                   ->header('Content-Type', 'application/json');

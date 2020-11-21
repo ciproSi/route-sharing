@@ -6,7 +6,7 @@ import Checkbox from '../Checkbox/Checkbox'
 const NewRouteDetails = (props) => {
     const [redirect, setRedirect] = useState(null);
     const [activities, setActivities] = useState([]);
-    const [routeImage, setRouteImage] = useState([]);
+    const [routeImages, setRouteImages] = useState([]);
     const [routeDetails, setRouteDetails] = useState({
         difficulty: '',
         description: '',
@@ -38,7 +38,7 @@ const NewRouteDetails = (props) => {
     }
 
     const handleFileChange = (e) => {
-        setRouteImage(e.target.files[0]);
+        setRouteImages(e.target.files);
     }
 
     const handleChange = (e) => {
@@ -70,7 +70,14 @@ const NewRouteDetails = (props) => {
         
         // prepera data to be sent
         let fd = new FormData();
-        fd.append('routeImage', routeImage, routeImage.name);
+        
+        // append all images
+        for (let i = 0; i < routeImages.length; i++) {
+            const routeImagesName = 'routeImages[' + i + ']';
+            fd.append(routeImagesName, routeImages[i], routeImages[i].name);
+        }
+        
+        
         fd.append('difficulty', routeDetails.difficulty);
         fd.append('description', routeDetails.description);
         fd.append('visibility', routeDetails.visibility);
@@ -117,7 +124,7 @@ const NewRouteDetails = (props) => {
 
                     <div className="form-group">
                             <label htmlFor="route_image">Choose route picture</label>
-                            <input type="file" name="route_images" onChange={ handleFileChange }/>
+                            <input type="file" name="route_images" onChange={ handleFileChange } multiple/>
                     </div>
 
                     <button>Save new route</button>

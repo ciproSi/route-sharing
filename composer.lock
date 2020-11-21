@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c21fd5b2032bfce69842fa2d5261a44",
+    "content-hash": "a08066072c6812ecb23bade3514afc1a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -106,6 +106,69 @@
             "description": "BaconQrCode is a QR code generator for PHP.",
             "homepage": "https://github.com/Bacon/BaconQrCode",
             "time": "2020-10-30T02:02:47+00:00"
+        },
+        {
+            "name": "bkwld/croppa",
+            "version": "4.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BKWLD/croppa.git",
+                "reference": "7c7362452945a27c5ea6fdec66b88c5db39c5918"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BKWLD/croppa/zipball/7c7362452945a27c5ea6fdec66b88c5db39c5918",
+                "reference": "7c7362452945a27c5ea6fdec66b88c5db39c5918",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "illuminate/console": "4 - 8",
+                "illuminate/routing": "4 - 8",
+                "illuminate/support": "4 - 8",
+                "league/flysystem": "~1.0",
+                "php": "^7.2.5",
+                "symfony/http-foundation": "2 - 5",
+                "symfony/http-kernel": "2 - 5",
+                "weotch/phpthumb": "^1.0.5"
+            },
+            "conflict": {
+                "league/flysystem-cached-adapter": "<1.0.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "4 - 5"
+            },
+            "suggest": {
+                "ext-exif": "Required if you want to have Croppa auto-rotate images from devices like mobile phones based on exif meta data."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bkwld\\Croppa\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Croppa": "Bkwld\\Croppa\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Bkwld\\Croppa": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Reinhard"
+                }
+            ],
+            "description": "Image thumbnail creation through specially formatted URLs for Laravel",
+            "time": "2020-09-17T19:02:44+00:00"
         },
         {
             "name": "brick/math",
@@ -4903,6 +4966,41 @@
                 }
             ],
             "time": "2020-11-12T00:07:28+00:00"
+        },
+        {
+            "name": "weotch/phpthumb",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/weotch/PHPThumb.git",
+                "reference": "f5c1d2ef2e9de3bded7483778618bf8cac2511c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/weotch/PHPThumb/zipball/f5c1d2ef2e9de3bded7483778618bf8cac2511c3",
+                "reference": "f5c1d2ef2e9de3bded7483778618bf8cac2511c3",
+                "shasum": ""
+            },
+            "replace": {
+                "dannytrue/phpthumb": "dev-master#2d8898f62e75a743e248dd5906a038d574e0dfe0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Reinhard"
+                }
+            ],
+            "description": "Fork of PHPThumb that adds auto-image rotation based on EXIF data and composer support",
+            "time": "2015-05-12T22:56:19+00:00"
         }
     ],
     "packages-dev": [
