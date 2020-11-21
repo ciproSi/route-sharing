@@ -17,7 +17,7 @@ const DisplayMapWithPoints = (props) => {
 
     useEffect(() => {
         
-        const { zoom, url, centerCoordinates } = props;
+        const { routes, zoom } = props;
 
         const attributions =
             '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ' +
@@ -27,48 +27,49 @@ const DisplayMapWithPoints = (props) => {
             source: new XYZ({
                 attributions: attributions,
                 url: 'https://api.maptiler.com/maps/outdoor/{z}/{x}/{y}.png?key=zqQIfCZhtqUzH8SuoWR1',
-                // maxZoom: 20,
             }),
         });
 
+        // TO DO: determine center coordinates somehow based on routes displayed
         const mapObject = new Map({
             target: 'map',
             layers: [raster],
              view: new View({
-                center: fromLonLat(centerCoordinates),
+                center: fromLonLat([13, 49]),
                 zoom: zoom,
             }),
         });
 
-        // point addidition
-            const iconFeature = new Feature({
-                geometry: new Point(fromLonLat(centerCoordinates)),
-                name: 'Null Island',
-                population: 4000,
-                rainfall: 500,
+        // for every route, we display one icon in the place of its start point
+            routes.forEach((route) => {
+                const iconFeature = new Feature({
+                    geometry: new Point(fromLonLat([route.lon, route.lat])),
+                    name: route.name,
+                    length: route.length,
+                    elev: route.elevation_gain,
+                });
+                
+                const iconStyle = new Style({
+                    image: new Icon({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    src: '/storage/icons/route-icon.png',
+                    }),
+                });
+    
+                iconFeature.setStyle(iconStyle);
+    
+                const vectorSource = new VectorSource({
+                    features: [iconFeature],
+                  });
+                  
+                const vectorLayer = new VectorLayer({
+                source: vectorSource,
+                });
+    
+                mapObject.addLayer(vectorLayer);
             });
-            
-            const iconStyle = new Style({
-                image: new Icon({
-                anchor: [0.5, 46],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                src: '/storage/icons/route-icon.png',
-                }),
-            });
-
-            iconFeature.setStyle(iconStyle);
-
-            const vectorSource = new VectorSource({
-                features: [iconFeature],
-              });
-              
-            const vectorLayer = new VectorLayer({
-            source: vectorSource,
-            });
-
-            mapObject.addLayer(vectorLayer);
-
     }, [])
 
 

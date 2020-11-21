@@ -4,8 +4,8 @@
 }
 
 .map {
-    height: 100vw;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
   }
 
 .new-route-form {
@@ -52,5 +52,18 @@
 .route-images {
     img {
         width: 200px;
+    }
+}
+
+.search-container {
+    display: flex;
+    height: 100vh;
+
+    .routes-list {
+        width: 50vw;
+    }
+
+    .map-container {
+        width: 50vw;
     }
 }

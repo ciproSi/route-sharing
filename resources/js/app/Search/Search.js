@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ListAllRoutes from '../ListAllRoutes/ListAllRoutes';
+import DisplayMapWithPoints from '../DisplayMapWithPoints/DisplayMapWithpoints';
 
 const Search = () => {
     const [routes, setRoutes] = useState([]);
@@ -26,9 +27,14 @@ const Search = () => {
         )
     } else {
         return (
-            <>
-                <ListAllRoutes routes={ routes } />
-            </>
+            <div className="search-container">
+                <div className="routes-list">
+                    <ListAllRoutes routes={ routes } />
+                </div>
+                <div className="map-container">
+                    <DisplayMapWithPoints routes={ routes } zoom={ 5 } />
+                </div>
+            </div>
         )
     }
     
