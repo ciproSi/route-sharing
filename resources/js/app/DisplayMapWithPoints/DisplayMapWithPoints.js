@@ -12,7 +12,7 @@ import Attribution from 'ol/control/Attribution';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 
-const DisplayMapWithRoute = (props) => {
+const DisplayMapWithPoints = (props) => {
     
 
     useEffect(() => {
@@ -31,34 +31,44 @@ const DisplayMapWithRoute = (props) => {
             }),
         });
 
-        const style = {
-            'MultiLineString': new Style({
-                stroke: new Stroke({
-                color: '#FF0000',
-                width: 3,
-                }),
-            }),
-        };
-
-        const vector = new VectorLayer({
-            source: new VectorSource({
-                attributions: attributions,
-                url: url,
-                format: new GPX(),
-            }),
-            style: function (feature) {
-                return style[feature.getGeometry().getType()];
-            },
-        });
-
         const mapObject = new Map({
             target: 'map',
-            layers: [raster, vector],
+            layers: [raster],
              view: new View({
                 center: fromLonLat(centerCoordinates),
                 zoom: zoom,
             }),
         });
+
+        // point addidition
+            const iconFeature = new Feature({
+                geometry: new Point(fromLonLat(centerCoordinates)),
+                name: 'Null Island',
+                population: 4000,
+                rainfall: 500,
+            });
+            
+            const iconStyle = new Style({
+                image: new Icon({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                src: '/storage/icons/route-icon.png',
+                }),
+            });
+
+            iconFeature.setStyle(iconStyle);
+
+            const vectorSource = new VectorSource({
+                features: [iconFeature],
+              });
+              
+            const vectorLayer = new VectorLayer({
+            source: vectorSource,
+            });
+
+            mapObject.addLayer(vectorLayer);
+
     }, [])
 
 
@@ -67,4 +77,4 @@ const DisplayMapWithRoute = (props) => {
     )
 }
 
-export default DisplayMapWithRoute;
+export default DisplayMapWithPoints;
