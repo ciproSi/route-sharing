@@ -180,6 +180,9 @@ return [
         // added manually:
         // Bkwld\Croppa\ServiceProvider::class,
 
+        // Intervention\Image\ImageServiceProvider::class,
+
+
     ],
 
     /*
@@ -232,7 +235,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // added manually:
-        // 'Croppa' => Bkwld\Croppa\Facade::class
+        // 'Croppa' => Bkwld\Croppa\Facade::class,
+
+        // 'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

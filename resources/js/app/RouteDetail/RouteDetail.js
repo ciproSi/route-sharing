@@ -41,6 +41,15 @@ const RouteDetail = () => {
                             <div className="route-data__item">Difficulty: { data.route.difficulty } / 5</div>
                             <div className="route-data__item">Ratings: TO DO %</div>
                         </div>
+                        <div className="route-images">
+                            {
+                                data.route.images.map((image, index) => (
+                                    <img key={ index } src={ '/storage/users-images/' + image.img_url } alt="Route image"/>
+                                )) 
+                                
+                            }
+                            
+                        </div>
                     </div>
 
                     <div className="map-container">

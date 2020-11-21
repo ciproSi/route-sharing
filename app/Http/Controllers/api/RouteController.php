@@ -10,6 +10,7 @@ use App\Models\Route;
 use App\Models\Activity;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use Croppa;
 class RouteController extends Controller
 {
     
@@ -109,8 +110,12 @@ class RouteController extends Controller
             // saving of images
             foreach ($images as $image) {
                 $path = $image->store('public/users-images');
+                
+                $file_name = substr($path, 20, strlen($path) - 20);
+                // Croppa::render(Croppa::url($path, 800, null));
+
                 $image = new Image;
-                $image->img_url = $path;
+                $image->img_url = $file_name;
                 $image->route_id = $id;
                 $image->source = 'author';
                 $image->save();
@@ -118,7 +123,7 @@ class RouteController extends Controller
         }
         
         
-        // Croppa::render(Croppa::url($path, 800, null));
+        
 
         $route = Route::findOrFail($id);
         $route->description = $request->input('description');
