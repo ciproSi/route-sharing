@@ -21,8 +21,8 @@ const SearchBox = (props) => {
         // we are using first result from response which seems to be always the most valid - needs to be observed in future
         if (response.status === 200) {
             const centerCoordinates = [response.data.results[0].geometry.lng, response.data.results[0].geometry.lat]
-            props.setSearchCoordinates(centerCoordinates);
-            console.log(centerCoordinates);
+            
+            props.handleSearchInput(centerCoordinates);
 
         }
     }

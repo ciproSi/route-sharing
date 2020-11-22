@@ -7,10 +7,13 @@ import SearchBox from '../SearchBox/SearchBox';
 const Search = () => {
     const [routes, setRoutes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchCoordinates, setSearchCoordinates] = useState([]);
+    const [waitingForSearchInput, setWaitingForSearchInput] = useState(true);
 
-    const fetchData = async () => {
-        const response = await axios.get('/api/routes');
+    const fetchData = async (centerCoordinates) => {
+        
+        // constructing query URL for API - logic of search itself is done serverside
+        const queryURL = '/api/routes?lon=' + centerCoordinates[0] + '&lat=' + centerCoordinates[1];
+        const response = await axios.get(queryURL);
         
         console.log(response)
         if (response.status === 200) {
@@ -19,11 +22,21 @@ const Search = () => {
         }
     }
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    const handleSearchInput = (centerCoordinates) => {
+        setWaitingForSearchInput(false);
+        fetchData(centerCoordinates);
 
-    if (loading) {
+    }
+
+    if (waitingForSearchInput) {
+        return (
+            <>
+                <h3>Search for dogroute anywhere in the world</h3>
+                <SearchBox handleSearchInput={ handleSearchInput }/>
+            </>
+            
+        )
+    } else if (loading) {
         return (
             <h3>Loading...</h3>
         )
@@ -31,7 +44,7 @@ const Search = () => {
         return (
             <div className="search-container">
                 <div className="routes-list">
-                    <SearchBox setSearchCoordinates={ setSearchCoordinates }/>
+                    
                     <ListAllRoutes routes={ routes } />
                 </div>
                 <div className="map-container">

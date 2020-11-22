@@ -70,11 +70,19 @@ class RouteController extends Controller
                   ->header('Content-Type', 'application/json');
     }
 
-    public function getAll ()
+    // this API endpoint expecting lon and lat coordinates in the query string as a center geopoint for searching the DB
+    public function getAll (Request $request)
     {
-        $routes = Route::get();
+        // get lon and lat values from query string
+        $lon = $request->query('lon');
+        $lat = $request->query('lat');
+        
+        $routes = Route::
+                    whereBetween('lat', [$lat - 0.5, $lat + 0.5])
+                    ->whereBetween('lon', [$lon - 0.5, $lat + 0.5])
+                    ->get();
 
-        return response(compact('routes'), 200)
+        return response(compact('routes', 'lon', 'lat'), 200)
                   ->header('Content-Type', 'application/json');
 
     }
