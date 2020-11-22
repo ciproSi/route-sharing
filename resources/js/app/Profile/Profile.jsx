@@ -2,10 +2,13 @@ import React, {useState, useEffect, useContext} from 'react';
 
 import CreateDog from '../Dog/CreateDog.jsx';
 
+import {UserContext} from '../App/App.jsx';
+
 export default function Profile(props) 
 {
-    const user_id =  props.user.id && props.user.id;
-    console.log(user_id);
+    const user = useContext(UserContext)
+    //const user_id =  props.user.id && props.user.id;
+    console.log(user);
     
 
    // return 'Hello';
@@ -15,7 +18,7 @@ export default function Profile(props)
         <div>
              <p>{ props.user.name }</p>
             <p>{ props.user.surname }</p> 
-            <CreateDog user_id={user_id}/>
+            {/* <CreateDog user_id={user_id}/> */}
 
         </div>   
     )

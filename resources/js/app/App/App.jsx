@@ -13,11 +13,13 @@ import RouteDetail from '../RouteDetail/RouteDetail.js';
 
 
 
+export const UserContext = createContext({user: null});
+
 export default function App() {
 
     const [user, setUser] = useState(null);
     
-    const UserContext = createContext(user);
+    
 
     const fetchUser = async () => {
         const response = await ApiClient.get('/api/user');
@@ -33,6 +35,8 @@ export default function App() {
     useEffect(() => {
         fetchUser();
     }, []);
+
+    //if
 
     return (
         < UserContext.Provider value={ user }>
@@ -57,6 +61,7 @@ export default function App() {
                         <Route path="/route/:id" children={<RouteDetail /> } />
                     </Switch>
                 </main>
+
             </Router>
         </UserContext.Provider>
     )
