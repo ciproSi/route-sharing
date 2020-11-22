@@ -10,7 +10,8 @@ const Search = () => {
     const [waitingForSearchInput, setWaitingForSearchInput] = useState(true);
 
     const fetchData = async (queryData) => {
-        
+        setWaitingForSearchInput(false);
+
         // constructing query URL for API - logic of search itself is done serverside
         let queryURL = '';
         if (Array.isArray(queryData)) {
@@ -28,18 +29,12 @@ const Search = () => {
         }
     }
 
-    const handleSearchInput = (queryData) => {
-        setWaitingForSearchInput(false);
-        fetchData(queryData);
-
-    }
-
     if (waitingForSearchInput) {
         return (
             <>
                 <h3>Search for dogroute anywhere in the world</h3>
-                <SearchBox handleSearchInput={ handleSearchInput }/>
-                <button onClick={() => {handleSearchInput('all')}}>Show all routes</button>
+                <SearchBox handleSearchInput={ fetchData }/>
+                <button onClick={() => {fetchData('all')}}>Show all routes</button>
             </>
             
         )
@@ -51,8 +46,8 @@ const Search = () => {
         return (
             <div className="search-container">
                 <div className="routes-list">
-                    <SearchBox handleSearchInput={ handleSearchInput }/>
-                    <button onClick={() => {handleSearchInput('all')}}>Show all routes</button>
+                    <SearchBox handleSearchInput={ fetchData }/>
+                    <button onClick={() => {fetchData('all')}}>Show all routes</button>
                     <ListAllRoutes routes={ routes } />
                 </div>
                 <div className="map-container">
