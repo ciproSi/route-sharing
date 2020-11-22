@@ -7,7 +7,7 @@ import View from 'ol/View';
 import XYZ from 'ol/source/XYZ';
 import {Circle as CircleStyle, Fill, Stroke, Style, Icon} from 'ol/style';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
-import {fromLonLat} from 'ol/proj';
+import {fromLonLat, toLonLat} from 'ol/proj';
 // import Attribution from 'ol/control/Attribution';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -15,7 +15,13 @@ import Overlay from 'ol/Overlay';
 import { Link } from 'react-router-dom';
 
 const DisplayMapWithPoints = (props) => {
-    const [selectedRoute, setSelectedRoute] = useState([]);
+    const [selectedRoute, setSelectedRoute] = useState({
+        selected: false,
+        elevation: null,
+        length: null,
+        name: '',
+        id: null
+    });
 
     useEffect(() => {
         
@@ -74,6 +80,7 @@ const DisplayMapWithPoints = (props) => {
                 mapObject.addLayer(vectorLayer);
             });
             
+            // we display route data when clicked on the route icon, if clicked anywhere else, we just console.log cooridnate lonlat
             mapObject.on('click', function (event) {
                 const feature = mapObject.forEachFeatureAtPixel(event.pixel, function (feature) {
                   return feature;
@@ -81,12 +88,14 @@ const DisplayMapWithPoints = (props) => {
                 if (feature) {
                   const coordinates = feature.getGeometry().getCoordinates();
                   
-                  console.log(feature.values_.name, coordinates);
-
-                  const element = document.getElementById('popup');
-                //   element.innerHTML = `${feature.values_.name}`;
-
-                  setSelectedRoute([feature.values_.name, feature.values_.elev, feature.values_.id]);
+                  setSelectedRoute({
+                      name: feature.values_.name,
+                      elevation: feature.values_.elev,
+                      id: feature.values_.id,
+                      selected: true,
+                      length: feature.values_.length
+                    });
+                    const element = document.getElementById('popup');
                   
                   const popup = new Overlay({
                     element: element,
@@ -100,30 +109,29 @@ const DisplayMapWithPoints = (props) => {
                   mapObject.addOverlay(popup);
 
                 } else {
-                  console.log('hovno');
+                    console.log(toLonLat(event.coordinate));
                 }
               });
         
         
     }, []);
 
-
-    return (
-     <div id="map" className="map">
-         <div id="popup" className="popup">
-         {
-             selectedRoute !== [] && (
-                    <>
-                    <Link to={'/route/' + selectedRoute[2] }> { selectedRoute[0] } </Link>
-                    <div className="route-elev">Route elev: { selectedRoute[1]} m</div> 
-                    </>
-              ) 
-                 
-             
-         }
-         </div>
-     </div>
-    )
+    if (selectedRoute.selected == false) {
+        return (
+            <div className="map" id="map"></div>    
+        )
+    } else {
+        return (
+            <div id="map" className="map">
+                <div id="popup" className="popup">
+                    <Link to={'/route/' + selectedRoute.id }> { selectedRoute.name } </Link>
+                    <div className="route-info">Elevation: { selectedRoute.elevation } m</div>
+                    <div className="route-info">Length: { selectedRoute.length / 1000 } km</div>
+                </div>
+            </div>
+        )
+    }
+    
 }
 
 export default DisplayMapWithPoints;
