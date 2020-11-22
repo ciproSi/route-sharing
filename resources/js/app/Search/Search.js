@@ -44,7 +44,7 @@ const Search = () => {
         return (
             <div className="search-container">
                 <div className="routes-list">
-                    
+                    <SearchBox handleSearchInput={ handleSearchInput }/>
                     <ListAllRoutes routes={ routes } />
                 </div>
                 <div className="map-container">

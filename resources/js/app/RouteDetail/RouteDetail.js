@@ -11,7 +11,7 @@ const RouteDetail = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
-        const response = await axios.get('/route/' + id);
+        const response = await axios.get('/api/route/' + id);
 
         if (response.status === 200) {
             setData(response.data);

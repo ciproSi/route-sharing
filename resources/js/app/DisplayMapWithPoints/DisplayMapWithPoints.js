@@ -15,6 +15,7 @@ import Overlay from 'ol/Overlay';
 import { Link } from 'react-router-dom';
 
 const DisplayMapWithPoints = (props) => {
+
     const [selectedRoute, setSelectedRoute] = useState({
         selected: false,
         elevation: null,
@@ -85,28 +86,38 @@ const DisplayMapWithPoints = (props) => {
                 const feature = mapObject.forEachFeatureAtPixel(event.pixel, function (feature) {
                   return feature;
                 });
+
                 if (feature) {
-                  const coordinates = feature.getGeometry().getCoordinates();
+                    const coordinates = feature.getGeometry().getCoordinates();
                   
-                  setSelectedRoute({
-                      name: feature.values_.name,
-                      elevation: feature.values_.elev,
-                      id: feature.values_.id,
-                      selected: true,
-                      length: feature.values_.length
+                    setSelectedRoute({
+                        name: feature.values_.name,
+                        elevation: feature.values_.elev,
+                        id: feature.values_.id,
+                        selected: true,
+                        length: feature.values_.length
                     });
+                
                     const element = document.getElementById('popup');
                   
-                  const popup = new Overlay({
-                    element: element,
-                    autoPan: true,
-                    autoPanAnimation: {
-                        duration: 250,
-                    },
-                  });
+                    const popup = new Overlay({
+                        element: element,
+                        autoPan: true,
+                        autoPanAnimation: {
+                            duration: 250,
+                        },
+                    });
 
-                  popup.setPosition(coordinates);
-                  mapObject.addOverlay(popup);
+                    popup.setPosition(coordinates);
+                    mapObject.addOverlay(popup);
+
+                    // add closer to the popup
+                    const closer = document.getElementById('closer');
+                    closer.onclick = function () {
+                        popup.setPosition(undefined);
+                        // closer.blur();
+                        return false;
+                    };
 
                 } else {
                     console.log(toLonLat(event.coordinate));
@@ -124,6 +135,7 @@ const DisplayMapWithPoints = (props) => {
         return (
             <div id="map" className="map">
                 <div id="popup" className="popup">
+                    <div className="closer" id="closer">X</div>
                     <Link to={'/route/' + selectedRoute.id }> { selectedRoute.name } </Link>
                     <div className="route-info">Elevation: { selectedRoute.elevation } m</div>
                     <div className="route-info">Length: { selectedRoute.length / 1000 } km</div>

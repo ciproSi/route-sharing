@@ -43,7 +43,7 @@ const GPXUploadForm = () => {
     }
 
     const fetchRoute = async (routeID) => {
-        const response = await axios.get('/route/' + routeID);
+        const response = await axios.get('/api/route/' + routeID);
 
         setRouteData({
             'name': response.data.route.name,
