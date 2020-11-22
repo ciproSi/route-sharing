@@ -9,10 +9,16 @@ const Search = () => {
     const [loading, setLoading] = useState(true);
     const [waitingForSearchInput, setWaitingForSearchInput] = useState(true);
 
-    const fetchData = async (centerCoordinates) => {
+    const fetchData = async (queryData) => {
         
         // constructing query URL for API - logic of search itself is done serverside
-        const queryURL = '/api/routes?lon=' + centerCoordinates[0] + '&lat=' + centerCoordinates[1];
+        let queryURL = '';
+        if (Array.isArray(queryData)) {
+            queryURL = '/api/routes?lon=' + queryData[0] + '&lat=' + queryData[1] + '&all=false';
+        } else {
+            queryURL = '/api/routes?lon=&lat=&all=true';
+        }
+        
         const response = await axios.get(queryURL);
         
         console.log(response)
@@ -22,9 +28,9 @@ const Search = () => {
         }
     }
 
-    const handleSearchInput = (centerCoordinates) => {
+    const handleSearchInput = (queryData) => {
         setWaitingForSearchInput(false);
-        fetchData(centerCoordinates);
+        fetchData(queryData);
 
     }
 
@@ -33,6 +39,7 @@ const Search = () => {
             <>
                 <h3>Search for dogroute anywhere in the world</h3>
                 <SearchBox handleSearchInput={ handleSearchInput }/>
+                <button onClick={() => {handleSearchInput('all')}}>Show all routes</button>
             </>
             
         )
@@ -45,6 +52,7 @@ const Search = () => {
             <div className="search-container">
                 <div className="routes-list">
                     <SearchBox handleSearchInput={ handleSearchInput }/>
+                    <button onClick={() => {handleSearchInput('all')}}>Show all routes</button>
                     <ListAllRoutes routes={ routes } />
                 </div>
                 <div className="map-container">
