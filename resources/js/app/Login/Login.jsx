@@ -6,7 +6,7 @@ export default function Login({ fetchUser }) {
    const [values, setValues] = useState({
       email: '',
       password: '',
-  });
+  }); 
 
   const handleChange = (event) => {
    const allowed_names = ['email', 'password'],
