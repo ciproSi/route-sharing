@@ -6,6 +6,7 @@ import {UserContext} from '../App/App.jsx';
 
 export default function Profile(props) 
 {
+
     const user = useContext(UserContext)
     //const user_id =  props.user.id && props.user.id;
     console.log(user);
@@ -13,13 +14,16 @@ export default function Profile(props)
 
    // return 'Hello';
     //console.log(props.user.id);
+    if (user === null) {
+        return ('Loading...')
+    } else {
     return (
 
         <div>
-             <p>{ props.user.name }</p>
-            <p>{ props.user.surname }</p> 
+             <p>{ user.name }</p>
+            <p>{ user.surname }</p> 
             {/* <CreateDog user_id={user_id}/> */}
 
         </div>   
-    )
+    )}
 }
