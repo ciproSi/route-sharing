@@ -5,10 +5,12 @@ import Map from 'ol/Map';
 import VectorSource from 'ol/source/Vector';
 import View from 'ol/View';
 import XYZ from 'ol/source/XYZ';
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Circle as CircleStyle, Fill, Stroke, Style, Icon} from 'ol/style';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {fromLonLat} from 'ol/proj';
 import Attribution from 'ol/control/Attribution';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
 
 const DisplayMapWithRoute = (props) => {
     
@@ -40,6 +42,7 @@ const DisplayMapWithRoute = (props) => {
 
         const vector = new VectorLayer({
             source: new VectorSource({
+                attributions: attributions,
                 url: url,
                 format: new GPX(),
             }),
@@ -56,9 +59,6 @@ const DisplayMapWithRoute = (props) => {
                 zoom: zoom,
             }),
         });
-
-        // mapObject.addLayer(vector);
-
     }, [])
 
 

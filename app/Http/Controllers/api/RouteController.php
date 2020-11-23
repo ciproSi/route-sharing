@@ -10,7 +10,7 @@ use App\Models\Route;
 use App\Models\Activity;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
-
+use Croppa;
 class RouteController extends Controller
 {
     
@@ -35,16 +35,22 @@ class RouteController extends Controller
         //unique name of the gpx file based on time() and route name (url endoded) with original extension (which needs to be gpx)
         $name_to_be_saved = Str::slug($route_name) . '_' . microtime(true) . '.' . $original_extension;
         $path = $request->file('GPXFile')->storeAs('public/gpx', $name_to_be_saved);
-        
+        $gpx_file_url = './storage/gpx/' . $name_to_be_saved;
+
         // parsing gpx file to get length and cumulative elevation
         $gpx = new phpGPX();
-        $file = $gpx->load('./storage/gpx/' . $name_to_be_saved);
+        $file = $gpx->load($gpx_file_url);
         $stats = $file->tracks[0]->stats->toArray();
+
+        // find the first trackpoint of the route
+        $start_coordinates = $this->getStartCoordinates($gpx_file_url);
 
         // saving the route to db
         $route = new Route;
         $route->name = $route_name;
         $route->url = $name_to_be_saved;
+        $route->lat = $start_coordinates[0];
+        $route->lon = $start_coordinates[1];
         $route->length = $stats['distance'];
         $route->elevation_gain = $stats['cumulativeElevationGain'];
         $route->save();
@@ -58,12 +64,35 @@ class RouteController extends Controller
     public function view ($id)
     {
         
-        $route = Route::findOrFail($id);
+        $route = Route::with(['images', 'activities'])->findOrFail($id);
 
         return response(compact('route'), 200)
                   ->header('Content-Type', 'application/json');
     }
 
+    // this API endpoint expecting lon and lat coordinates in the query string as a center geopoint for searching the DB
+    public function getAll (Request $request)
+    {
+        // get lon and lat values from query string
+        $lon = $request->query('lon');
+        $lat = $request->query('lat');
+        // $all = $request->query('all');
+        
+        // the api return all routes if there is a all=true in query
+        if ($request->query('all') == 'true') {
+            $routes = Route::get();
+        } else {
+            $routes = Route::
+                        whereBetween('lat', [$lat - 0.5, $lat + 0.5])
+                        ->whereBetween('lon', [$lon - 0.5, $lat + 0.5])
+                        ->get();
+        }
+
+        return response(compact('routes', 'lon', 'lat'), 200)
+                  ->header('Content-Type', 'application/json');
+
+    }
+    
     // API called to update existing route - gpx file, elevation and distance can't be updated here!
     public function update ($id, Request $request)
     {
@@ -71,41 +100,84 @@ class RouteController extends Controller
         // TO DO: validation needs to be finished!
         $this->validate($request, [
             'difficulty' => 'required | numeric | min:1 | max: 5',
-            'description' => 'string',
-            'routeImage' => 'required | mimes:jpeg,bmp,png,jpg'
+            'description' => 'string'
         ]);
 
         //TO DO: image uploads needs to be finished - resizing
-        //save route img on server
-        $path = $request->file('routeImage')->store('public/users-images');
-
-        // save path to image to db, source is to determine if the image was uploaded by author or by somebody writing review of route
-        $image = new Image;
-        $image->img_url = $path;
-        $image->route_id = $id;
-        $image->source = 'author';
-        $image->save();
         
+        //save route imgs on server and filesname to DB
+        $images = $request->file('routeImages');    
+        $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
+        
+        if ($request->hasFile('routeImages')) {
+            
+            // validation for images (file extension)
+            foreach ($images as $image) {
+                $original_extension = $image->getClientOriginalExtension();
+                
+                if (in_array($original_extension, $allowed_extensions) === false) {
+                    return response('Invalid file type.', 400)
+                        ->header('Content-Type', 'application/json');
+                }
+            }
+
+            // saving of images
+            foreach ($images as $image) {
+                $path = $image->store('public/users-images');
+                
+                $file_name = substr($path, 20, strlen($path) - 20);
+                // Croppa::render(Croppa::url($path, 800, null));
+
+                $image = new Image;
+                $image->img_url = $file_name;
+                $image->route_id = $id;
+                $image->source = 'author';
+                $image->save();
+            }
+        }
+        
+        
+        
+
         $route = Route::findOrFail($id);
         $route->description = $request->input('description');
         $route->visibility = $request->input('visibility');
         $route->difficulty = $request->input('difficulty');
-
-        // $route->images()->saveMany([
-        //     new Image(['img_url' => $path, 'source' => 'author']),
-        // ]);
-
         $route->save();
 
         // we are getting activities as json encoded array, we need to decode it first to pass it then directly do sync()
         $activities = json_decode($request->input('activities'));
         $route->activities()->sync($activities);
 
-        //save route img
-        $path = $request->file('routeImage')->store('public/users-images');
-
         return response(compact('route', 'activities', 'path'), 200)
                   ->header('Content-Type', 'application/json');
+    }
+
+    private function getStartCoordinates($file_url)
+    {
+        $file_handle = fopen($file_url, 'r');
+        $startCoordinates = [];
+
+        do {
+            $loop = true;
+            $start_coordinates = [];
+            $line = fgets($file_handle);
+            
+            $res = strpos($line, '<trkpt lat="');
+            
+            // stop the looping while we find first occurence of track point, save the lat and lon
+            if ($res) {
+                $lat = substr($line, strpos($line, 'lat') + 5, 9);
+                $lon = substr($line, strpos($line, 'lon') + 5, 9);
+                array_push($start_coordinates, $lat, $lon);          
+
+                $loop = false;
+            }
+
+        } while ($loop);
+
+        fclose($file_handle);
+        return $start_coordinates;
     }
 
 }

@@ -43,18 +43,16 @@ const GPXUploadForm = () => {
     }
 
     const fetchRoute = async (routeID) => {
-        const response = await axios.get('/route/' + routeID);
-        console.log(response);
-        
-        console.log(response.data.route.elevation_gain);
-        
+        const response = await axios.get('/api/route/' + routeID);
 
         setRouteData({
             'name': response.data.route.name,
             'length': response.data.route.length,
             'elevation': response.data.route.elevation_gain,
             'url': response.data.route.url,
-            'id': response.data.route.id
+            'id': response.data.route.id,
+            'lat': response.data.route.lat,
+            'lon': response.data.route.lon
         });
         
     }
@@ -83,10 +81,13 @@ const GPXUploadForm = () => {
     } else {
         
         // GPX already uploaded? = show route info + map + fillable fields for adding more details
-        const { name, length, elevation, url } = routeData;
+        // deconstruct fetch data
+        const { name, length, elevation, url, lat, lon } = routeData;
+        
+        // prepare variables for DisplayMapWithRoute component
         const routeURL = '/storage/gpx/' + url,
-        centerCoordinates = [15.192371159791946, 50.75322702527046],
-        zoom = 15;
+              centerCoordinates = [lon, lat],
+              zoom = 12;
 
         return (
             <div className="new-route-form">

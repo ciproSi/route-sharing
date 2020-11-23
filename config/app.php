@@ -177,6 +177,11 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        // added manually:
+        // Bkwld\Croppa\ServiceProvider::class,
+
+        // Intervention\Image\ImageServiceProvider::class,
+
 
     ],
 
@@ -229,6 +234,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        // added manually:
+        // 'Croppa' => Bkwld\Croppa\Facade::class,
+
+        // 'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

@@ -21,7 +21,8 @@ Route::post('/api/user/{id}/dog', 'ApiController@dog');
 // Route::get('/new-route', 'api\RouteController@create');
 Route::post('/new-route', 'api\RouteController@store');
 Route::post('/route/{id}', 'api\RouteController@update');
-Route::get('/route/{id}', 'api\RouteController@view');
+Route::get('/api/route/{id}', 'api\RouteController@view');
+Route::get('/api/routes', 'api\RouteController@getAll');
 
 Route::get('/api/activities', 'ActivityController@view');
 
