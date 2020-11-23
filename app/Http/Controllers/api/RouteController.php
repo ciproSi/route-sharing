@@ -52,6 +52,7 @@ class RouteController extends Controller
         $route->lat = $start_coordinates[0];
         $route->lon = $start_coordinates[1];
         $route->length = $stats['distance'];
+        $route->user_id = $request->input('userID');
         $route->elevation_gain = $stats['cumulativeElevationGain'];
         $route->save();
         $route_id = $route->id;

@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios';
 import DisplayMapWithRoute from '../DisplayMapWithRoute/DisplayMapWithRoute';
 import NewRouteDetails from '../NewRouteDetails/NewRouteDetails';
+import { UserContext } from '../App/App.jsx';
 
 const GPXUploadForm = () => {
+    const user = useContext(UserContext);
+
     const [routeName, setRouteName] = useState('');
     const [GPXFile, setGPXFile] = useState([]);
     const [GPXUploaded, setGPXUploaded] = useState(false);
@@ -25,6 +28,7 @@ const GPXUploadForm = () => {
         let fd = new FormData();
         fd.append("GPXFile", GPXFile, GPXFile.name);
         fd.append('routeName', routeName);
+        fd.append('userID', user.id);
         
         // send the data to API
         const response = await axios.post('/new-route', fd);
@@ -57,8 +61,12 @@ const GPXUploadForm = () => {
         
     }
 
+    if (user === null) {
+        return ('not logged in');
+    }
+    
+    
     if (GPXUploaded === false) {
-        
         // first step of route addition - show only input for gpx upload and route name
         return (
 

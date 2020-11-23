@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Activity;
 use App\Models\Image;
+use App\Models\User;
 class Route extends Model
 {
     use HasFactory;
@@ -18,5 +19,10 @@ class Route extends Model
     public function images ()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function user ()
+    {
+        return $this->belongsTo(User::class);
     }
 }
