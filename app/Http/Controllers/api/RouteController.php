@@ -10,7 +10,7 @@ use App\Models\Route;
 use App\Models\Activity;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
-// use Image as ImageHandler;
+use ImageHandler;
 class RouteController extends Controller
 {
     
@@ -124,12 +124,17 @@ class RouteController extends Controller
 
             // saving of images
             foreach ($images as $image) {
+                
+                // we resize the picture and we actually do it before the image is save to server
+                // ImageHandle is just our own alias (see app.php) for intervention/image as we use Image model here
+                ImageHandler::make($image->getRealPath())->resize(400, 300)->save();
+                
+                // save picture to the disk
                 $path = $image->store('public/users-images');
                 
+                // extract just the file name from the path for DB purposes
                 $file_name = substr($path, 20, strlen($path) - 20);
                 
-                Croppa::render(Croppa::url($path, 800, null));
-
                 $image = new Image;
                 $image->img_url = $file_name;
                 $image->route_id = $id;
@@ -138,9 +143,6 @@ class RouteController extends Controller
             }
         }
         
-        
-        
-
         $route = Route::findOrFail($id);
         $route->description = $request->input('description');
         $route->visibility = $request->input('visibility');
@@ -151,7 +153,7 @@ class RouteController extends Controller
         $activities = json_decode($request->input('activities'));
         $route->activities()->sync($activities);
 
-        return response(compact('route', 'activities', 'path'), 200)
+        return response(compact('route', 'activities'), 200)
                   ->header('Content-Type', 'application/json');
     }
 

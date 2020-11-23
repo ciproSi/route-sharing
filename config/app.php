@@ -233,7 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // added manually:
-        'Image' => Intervention\Image\Facades\Image::class,
+        'ImageHandler' => Intervention\Image\Facades\Image::class,
 
     ],
 
