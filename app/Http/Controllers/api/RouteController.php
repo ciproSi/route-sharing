@@ -10,7 +10,7 @@ use App\Models\Route;
 use App\Models\Activity;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
-use Croppa;
+// use Image as ImageHandler;
 class RouteController extends Controller
 {
     
@@ -127,7 +127,8 @@ class RouteController extends Controller
                 $path = $image->store('public/users-images');
                 
                 $file_name = substr($path, 20, strlen($path) - 20);
-                // Croppa::render(Croppa::url($path, 800, null));
+                
+                Croppa::render(Croppa::url($path, 800, null));
 
                 $image = new Image;
                 $image->img_url = $file_name;

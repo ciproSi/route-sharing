@@ -59,6 +59,12 @@ const DisplayMapWithRoute = (props) => {
                 zoom: zoom,
             }),
         });
+
+        //allow user to define POIs
+        mapObject.on('click', (e) => {
+            console.log(e.coordinate);
+        });
+
     }, [])
 
 
