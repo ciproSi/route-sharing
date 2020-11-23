@@ -127,7 +127,14 @@ class RouteController extends Controller
                 
                 // we resize the picture and we actually do it before the image is save to server
                 // ImageHandle is just our own alias (see app.php) for intervention/image as we use Image model here
-                ImageHandler::make($image->getRealPath())->resize(400, 300)->save();
+                $img = ImageHandler::make($image->getRealPath());
+                
+                $img->resize(1000, 1000, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                
+                $img->save();
                 
                 // save picture to the disk
                 $path = $image->store('public/users-images');
