@@ -108,7 +108,7 @@ class RouteController extends Controller
         
         //save route imgs on server and filesname to DB
         $images = $request->file('routeImages');    
-        $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
+        $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp', 'JPG', 'PNG', 'BMP', 'JPEG'];
         
         if ($request->hasFile('routeImages')) {
             
