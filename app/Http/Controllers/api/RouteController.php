@@ -129,6 +129,13 @@ class RouteController extends Controller
                 // ImageHandle is just our own alias (see app.php) for intervention/image as we use Image model here
                 $img = ImageHandler::make($image->getRealPath());
                 
+                //read exif data and orientate the image
+                $img->orientate();
+
+                // read exif data
+                $exif = $img->exif();
+                
+                // resize the longer edge to max 1000, prevent upsize, constrain aspect ratio
                 $img->resize(1000, 1000, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
@@ -141,10 +148,24 @@ class RouteController extends Controller
                 
                 // extract just the file name from the path for DB purposes
                 $file_name = substr($path, 20, strlen($path) - 20);
+
+                $lon = '';
+                $lat = '';
+                
+                // check if the image is geotagged, calculate the coordinates in decimal format and save them to lon, lat variables
+                if (isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])) {
+                    
+                    $location =  $this->getPictureLocationFromExifData($exif['GPSLatitude'], $exif['GPSLongitude']);
+                    $lon = $location[0];
+                    $lat = $location[1];
+
+                }
                 
                 $image = new Image;
                 $image->img_url = $file_name;
                 $image->route_id = $id;
+                $image->lon = $lon;
+                $image->lat = $lat;
                 $image->source = 'author';
                 $image->save();
             }
@@ -160,8 +181,9 @@ class RouteController extends Controller
         $activities = json_decode($request->input('activities'));
         $route->activities()->sync($activities);
 
-        return response(compact('route', 'activities'), 200)
+        return response(compact('route', 'activities', 'exif', 'lon', 'lat'), 200)
                   ->header('Content-Type', 'application/json');
+    
     }
 
     private function getStartCoordinates($file_url)
@@ -189,6 +211,34 @@ class RouteController extends Controller
 
         fclose($file_handle);
         return $start_coordinates;
+    }
+
+    private function getPictureLocationFromExifData($GPSLatitude, $GPSLongitude)
+    {
+            list($num, $dec) = explode('/', $GPSLatitude[0]); 
+            $lat_d = $num / $dec;
+
+            list($num, $dec) = explode('/', $GPSLatitude[1]); 
+            $lat_m = $num / $dec;
+
+            list($num, $dec) = explode('/', $GPSLatitude[2]); 
+            $lat_s = $num / $dec;
+
+            $lat = $lat_d + $lat_m / 60 + $lat_s / 3600;
+
+            list($num, $dec) = explode('/', $GPSLongitude[0]);
+            $lon_d = $num / $dec;
+
+            list($num, $dec) = explode('/', $GPSLongitude[1]);
+            $lon_m = $num / $dec;
+
+            list($num, $dec) = explode('/', $GPSLongitude[2]);
+            $lon_s = $num / $dec;
+
+            $lon = $lon_d + $lon_m / 60 + $lon_s / 3600;
+
+            return [$lon, $lat];
+
     }
 
 }
