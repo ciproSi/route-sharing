@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 
 export default function Register() {
@@ -29,24 +30,9 @@ export default function Register() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('/register', {
-            method: 'post',
-            body: JSON.stringify(values),
-            headers: {
-                'Accept' : 'application/json', //tell Laravel (backend) what we want in response
-                'Content-type' : 'application/json', //tell backend what we are sending
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') //prove to backend that this is authorized
-            }
-        })
-
-        const response_data = await response.json()
-
-        if (response_data.errors) {
-            setErrors(response_data.errors);
-
-        }
-
-        console.log(response_data);
+        const response = await axios.post('/register', values);
+            
+        console.log(response);
     }
 
 

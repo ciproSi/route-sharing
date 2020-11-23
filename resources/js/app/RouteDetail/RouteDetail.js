@@ -49,7 +49,7 @@ const RouteDetail = () => {
                             <div className="suitable-for__header"><h4>Suitable for</h4></div>
                                 {
                                     data.route.activities.map((activity, index) => (
-                                        <div className="suitale-for__item">
+                                        <div key= { index } className="suitale-for__item">
                                             { activity.name }
                                         </div>
                                     ))

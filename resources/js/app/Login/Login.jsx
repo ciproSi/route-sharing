@@ -65,6 +65,8 @@ export default function Login({ fetchUser }) {
                         </div>
                         <button>Log in</button>
                     </form>
+                
+                // protection from showing the login form to logged in users
                 ) : (
                     <h3>You are already logged in.</h3>
                 )
