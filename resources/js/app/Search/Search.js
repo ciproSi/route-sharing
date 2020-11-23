@@ -14,6 +14,8 @@ const Search = () => {
 
         // constructing query URL for API - logic of search itself is done serverside
         let queryURL = '';
+        
+        // we assume that the function is getting coordinates if the queryData is array
         if (Array.isArray(queryData)) {
             queryURL = '/api/routes?lon=' + queryData[0] + '&lat=' + queryData[1] + '&all=false';
         } else {
