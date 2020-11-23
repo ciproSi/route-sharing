@@ -65,7 +65,7 @@ class RouteController extends Controller
     public function view ($id)
     {
         
-        $route = Route::with(['images', 'activities'])->findOrFail($id);
+        $route = Route::with(['images', 'activities', 'user'])->findOrFail($id);
 
         return response(compact('route'), 200)
                   ->header('Content-Type', 'application/json');
