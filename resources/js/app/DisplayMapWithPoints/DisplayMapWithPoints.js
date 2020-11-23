@@ -52,12 +52,21 @@ const DisplayMapWithPoints = (props) => {
     }, []);
 
     useEffect(() => {
-
+        
         // dont try to run this function when the mapObject is not set yet
         if (mapObject === null) { return }
 
+        // // remove all layers except the first one which is the base map
+        // clone the array first
+        const layers = [...mapObject.getLayers().getArray()]
+        
+        // keep the base layer
+        layers.shift();
+        layers.forEach((layer) => mapObject.removeLayer(layer));
+        
         // for every route, we display one icon in the place of its start point
         routes.forEach((route) => {
+            
             const iconFeature = new Feature({
                 geometry: new Point(fromLonLat([route.lon, route.lat])),
                 name: route.name,
@@ -79,15 +88,16 @@ const DisplayMapWithPoints = (props) => {
 
             const vectorSource = new VectorSource({
                 features: [iconFeature],
-              });
+            });
               
             const vectorLayer = new VectorLayer({
             source: vectorSource,
             });
 
             mapObject.addLayer(vectorLayer);
+            
         });
-        
+
         // we display route data when clicked on the route icon, if clicked anywhere else, we just console.log cooridnate lonlat
         mapObject.on('click', function (event) {
             const feature = mapObject.forEachFeatureAtPixel(event.pixel, function (feature) {
@@ -130,7 +140,7 @@ const DisplayMapWithPoints = (props) => {
                 console.log(toLonLat(event.coordinate));
             }
           });
-    
+          
     }, [routes, mapObject]);
 
     if (selectedRoute.selected == false) {
