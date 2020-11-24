@@ -71,8 +71,9 @@ class ApiController extends Controller
             $dog->breed = $breed;
             $dog->image = $file_name;
             $dog->save();
+            $dog_id = $dog->id;
 
-            return response(compact('name', 'breed', 'file_name'), 200)
+            return response(compact('name', 'breed', 'file_name', 'dog_id'), 200)
                   ->header('Content-Type', 'application/json');
 
 
