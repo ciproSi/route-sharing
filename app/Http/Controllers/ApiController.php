@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Dog;
+use Illuminate\Support\Facades\Storage;
+use ImageHandler;
 
 class ApiController extends Controller
 {
@@ -29,7 +31,20 @@ class ApiController extends Controller
         
         $name = $request->input('name');
         $breed = $request->input('breed');
-        $image = $request->file('dogImage');    
+        $image = $request->file('dogImage');  
+        
+        $img = ImageHandler::make($image->getRealPath());
+        $img->orientate();
+        $exif = $img->exif();
+        $img->resize(1000, 1000, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        
+        $img->save();
+        
+        // save picture to the disk
+        $path = $img->store('public/users-images');
         
         $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
         
@@ -46,7 +61,7 @@ class ApiController extends Controller
             }
 
             // saving of images
-                $path = $image->store('public/users-images');
+                //$path = $image->store('public/users-images');
                 
                 $file_name = substr($path, 20, strlen($path) - 20);
                 // Croppa::render(Croppa::url($path, 800, null));
@@ -61,5 +76,41 @@ class ApiController extends Controller
                   ->header('Content-Type', 'application/json');
 
 
+    }
+
+    public function profilePicture($id, Request $request)
+    {
+        $image = $request->file('userPhoto'); 
+
+        $img = ImageHandler::make($image->getRealPath());
+        $img->orientate();
+        $exif = $img->exif();
+        $img->resize(1000, 1000, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        
+        $img->save();
+
+        $path = $img->store('public/users-images');
+        
+        $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
+        
+        if ($request->hasFile('dogImage')) {
+            
+            // validation for images (file extension)
+
+                $original_extension = $image->getClientOriginalExtension();
+                
+                if (in_array($original_extension, $allowed_extensions) === false) {
+                    return response('Invalid file type.', 400)
+                        ->header('Content-Type', 'application/json');
+                }
+            }
+        $file_name = substr($path, 20, strlen($path) - 20);
+
+        $user = User::where('user_id', $id)->get();
+        $user->photo = $file_name;
+        $user->save();
     }
 }

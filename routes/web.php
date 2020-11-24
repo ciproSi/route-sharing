@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/api/user/{id}/dog', 'ApiController@dog');
+Route::post('/api/user/{id}/pic', 'ApiController@profilePicture');
 
 Route::get('/api/dog/{id}', 'ApiController@dogsApi');
 
