@@ -9,6 +9,7 @@ const RouteDetail = () => {
     
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [displayImagesOnMap, setDisplayImagesOnMap] = useState(false);
 
     const fetchData = async () => {
         const response = await axios.get('/api/route/' + id);
@@ -19,7 +20,7 @@ const RouteDetail = () => {
         }
 
     }
-    
+  
     useEffect(() => {
         fetchData();
     }, []);
@@ -57,6 +58,13 @@ const RouteDetail = () => {
                         </div>
                         <div className="route-images">
                             <div className="route-images__header"><h4>Route images:</h4></div>
+                            <div className="div-link" onClick={ () => {setDisplayImagesOnMap(!displayImagesOnMap)} }>
+                                {
+                                displayImagesOnMap ? ('Hide images from map') : ('Show images on the map')
+                                }
+                                
+                                
+                            </div>
                             {
                                 data.route.images.map((image, index) => (
                                     <img key={ index } src={ '/storage/users-images/' + image.img_url } alt="Route image"/>
@@ -71,7 +79,8 @@ const RouteDetail = () => {
                         <DisplayMapWithRoute 
                             zoom='13' url={'/storage/gpx/' + data.route.url}
                             centerCoordinates={[data.route.lon, data.route.lat]}
-                            images ={ data.route.images }
+                            images ={ data.route.images}
+                            displayImagesOnMap = { displayImagesOnMap }
                         />
                     </div>
                     </>

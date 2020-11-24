@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import 'ol/ol.css';
 import GPX from 'ol/format/GPX';
 import Map from 'ol/Map';
@@ -13,7 +13,8 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 
 const DisplayMapWithRoute = (props) => {
-    const { zoom, url, centerCoordinates, images } = props;
+    const { zoom, url, centerCoordinates, images, displayImagesOnMap } = props;
+    const [mapObject, setMapObject] = useState(null);
 
     useEffect(() => {
         
@@ -53,61 +54,83 @@ const DisplayMapWithRoute = (props) => {
 
 
 
-        const mapObject = new Map({
+        setMapObject(new Map({
             target: 'map',
             layers: [raster, vector],
              view: new View({
                 center: fromLonLat(centerCoordinates),
                 zoom: zoom,
             }),
-        });
-        
+        }));
+    }, []);
+
+    useEffect(()=> {
+        // dont try to run this function when the mapObject is not set yet
+        if (mapObject === null) { return }
+
         // showing geotagged route images
-        if (images) {
-            images.forEach((image) => {
-                // first check if the image is geotagged
-                if (image.lat == '') { return }
+            if (images) {
+                // remove images if they are displayed on map
                 
-                const iconFeature = new Feature({
-                    geometry: new Point(fromLonLat([image.lon,image.lat])),
-                    // here i can define properties of feature
-                    // name: route.name,
-                    // length: route.length,
-                    // elev: route.elevation_gain,
-                    // id: route.id,
-                });
-
-                const iconStyle = new Style({
-                    image: new Icon({
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    scale: 0.1,
-                    src: '/storage/users-images/' + image.img_url,
-                    }),
-                });
-
-                iconFeature.setStyle(iconStyle);
-
-                const vectorSource = new VectorSource({
-                    features: [iconFeature],
-                });
+                // clone the array first
+                const layers = [...mapObject.getLayers().getArray()]
                 
-                const vectorLayer = new VectorLayer({
-                source: vectorSource,
-                });
-        
-                mapObject.addLayer(vectorLayer);
+                // if there is more than two layers, it means that there are pictures and need to be removed
+                if(layers.length > 2) {
+                    // remove all layers except the first one which is the base map and second one which is GPX layer
+                    layers.shift();
+                    layers.shift();
+                    layers.forEach((layer) => mapObject.removeLayer(layer));
+                    console.log(layers);
+                }
+                
+                // if images should be displayed, add them on map
+                if(displayImagesOnMap) {
+                images.forEach((image) => {
+                    // first check if the image is geotagged
+                    if (image.lat == '') { return }
+                    
+                    const iconFeature = new Feature({
+                        geometry: new Point(fromLonLat([image.lon,image.lat])),
+                        // here i can define properties of feature
+                        // name: route.name,
+                        // length: route.length,
+                        // elev: route.elevation_gain,
+                        // id: route.id,
+                    });
+
+                    const iconStyle = new Style({
+                        image: new Icon({
+                        anchor: [100, 46],
+                        anchorXUnits: 'pixels',
+                        anchorYUnits: 'pixels',
+                        scale: 0.1,
+                        src: '/storage/users-images/' + image.img_url,
+                        }),
+                    });
+
+                    iconFeature.setStyle(iconStyle);
+
+                    const vectorSource = new VectorSource({
+                        features: [iconFeature],
+                    });
+                    
+                    const vectorLayer = new VectorLayer({
+                    source: vectorSource,
+                    });
             
-            });
-        }
+                    mapObject.addLayer(vectorLayer);
+                
+                });
+                }
+            }
 
         //allow user to define POIs
         mapObject.on('click', (e) => {
             console.log(e.coordinate);
         });
 
-    }, [])
+    }, [displayImagesOnMap, mapObject]);
 
 
     return (
