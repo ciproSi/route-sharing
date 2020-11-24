@@ -97,6 +97,14 @@
 
 .dogs-list {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-row {
+    display: flex;
+    align-items: center;
 }
 
 .dog-container {
@@ -105,7 +113,9 @@
     .dog-image-box {
 
         .dog-image {
-            width: 150px;
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
 
         }
 
@@ -133,5 +143,21 @@
 
     .route-data {
         display: flex;
+    }
+}
+
+.tabs {
+    display: flex;
+    margin: .5em 0em;
+
+    .tab {
+        font-size: 1.5em;
+        padding: .2em 0.5em;
+        border: 1px solid black;
+        cursor: pointer;
+
+        &:hover {
+            background-color: lightgray;
+        }
     }
 }
