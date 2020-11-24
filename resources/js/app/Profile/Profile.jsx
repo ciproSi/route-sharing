@@ -32,6 +32,7 @@ export default function Profile (props)
         return (
 
             <div>
+                
                 <p>{ user.name }</p>
                 <p>{ user.surname }</p> 
                 <DogView dogs= { dogs }/>
