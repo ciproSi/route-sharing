@@ -96,7 +96,7 @@ const NewRouteDetails = (props) => {
             <Redirect to={redirect} />
         )
     } else {
-        return (
+        return ( 
             <div className="form">
                 <form action="/new-route" onSubmit={ handleSubmit } >
                     
