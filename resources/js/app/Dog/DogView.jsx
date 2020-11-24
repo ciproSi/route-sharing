@@ -3,38 +3,13 @@ import ReactDOM from 'react-dom';
 import {UserContext} from '../App/App.jsx';
 
 export default function DogView (props) {
-    // const [dogs, setDogs] = useState(null);
-    // const user = useContext(UserContext);
     
     const { dogs } = props;
 
-    // const id = user.id;
 
-    // const url = `http://www.trek4dog.test/api/dog/${id}`;
-
-    
-
-    // const loadData = async () => {
-    //     if (user) {
-    //     const response = await fetch(url);
-    //     const data = await response.json();
-
-    //     setDogs(data); 
-
-    //     } else {
-    //         return 'loading...';
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     loadData();
-        
-    // }, []) 
-
-      if (dogs !== null) {
+    if (dogs !== null) {
           console.log(dogs)
      return(
-         //'Dogs' // zjistit proč nejde map()
          <ul>
             { dogs.dogs.map(dog => (
 
