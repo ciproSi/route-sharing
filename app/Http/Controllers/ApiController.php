@@ -81,7 +81,7 @@ class ApiController extends Controller
 
     public function profilePicture($id, Request $request)
     {
-        $image = $request->file('userPhoto'); 
+        $image = $request->file('userImage'); 
 
         $img = ImageHandler::make($image->getRealPath());
         $img->orientate();
@@ -93,7 +93,7 @@ class ApiController extends Controller
         
         $img->save();
 
-        $path = $img->store('public/users-images');
+        $path = $image->store('public/users-images');
         
         $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
         
@@ -110,7 +110,7 @@ class ApiController extends Controller
             }
         $file_name = substr($path, 20, strlen($path) - 20);
 
-        $user = User::where('user_id', $id)->get();
+        $user = User::where('id', $id)->first();
         $user->photo = $file_name;
         $user->save();
     }
