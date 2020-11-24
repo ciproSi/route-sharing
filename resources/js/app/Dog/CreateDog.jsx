@@ -1,12 +1,15 @@
 import React, {useState, useContext} from 'react';
 import {UserContext} from '../App/App.jsx';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 
 export default function CreateDog (props) {
     const [name, setName] = useState('');
     const [breed, setBreed] = useState('');
     const [dogImage, setDogImage] = useState([]);
+    const [redirect, setRedirect] = useState();
+
     const user = useContext(UserContext);
 
     const user_id = user.id;
@@ -39,55 +42,50 @@ export default function CreateDog (props) {
         dog.append('name', name);
         dog.append('breed', breed);
 
-/*         const data = {
-            name,
-            breed
-        }; */
-
-        //const url = '/api/user/' + user_id + '/dog';
-
         const response = await axios.post('/api/user/' + user_id + '/dog', dog);
+
+        if (response.status === 200) {
+            const name = response.data.name;
+            const breed = response.data.breed;
+            const image = response.data.image;
+            const newDogs = [...props.dogs];
+            newDogs.push({
+                'name': name,
+                'breed': breed,
+                'image': image
+            });
+
+            props.setDogs(newDogs);
+        }
 
 
          
-/*         fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: data
-        }).then(() => {
-            console.log('success')
-            setName('');
-            setBreed('');
-        })*/
     }
 
+     
+        return (
+            <>
+                <form onSubmit={handleSubmit}>
+                    <div className="formElement">
+                        <label htmlFor="name">
+                            Name
+                            <input type="text" name="name" value={name} onChange={ handleNameChange } />
+                        </label>
+                    </div>
+                    <div className="formElement">
+                        <label htmlFor="breed">
+                            Breed
+                            <input type="text" name="breed" value={breed} onChange={ handleBreedChange } />
+                        </label>
+                    </div>
+                    <div className="formElement">
+                                <label htmlFor="dog-pic">Choose dog picture</label>
+                                <input type="file" name="dog-pic" onChange={ handleFileChange } />
+                    </div>
 
-    return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <div className="formElement">
-                    <label htmlFor="name">
-                        Name
-                        <input type="text" name="name" value={name} onChange={ handleNameChange } />
-                    </label>
-                </div>
-                <div className="formElement">
-                    <label htmlFor="breed">
-                        Breed
-                        <input type="text" name="breed" value={breed} onChange={ handleBreedChange } />
-                    </label>
-                </div>
-                <div className="formElement">
-                            <label htmlFor="dog-pic">Choose dog picture</label>
-                            <input type="file" name="dog-pic" onChange={ handleFileChange } />
-                </div>
-
-                <button type="submit">Submit</button>
-            </form>
-        </>
-    )
-    
+                    <button type="submit">Submit</button>
+                </form>
+            </>
+        )
+        
 }

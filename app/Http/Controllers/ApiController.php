@@ -27,7 +27,10 @@ class ApiController extends Controller
             'breed' => 'string | max: 100'
         ]);
         
+        $name = $request->input('name');
+        $breed = $request->input('breed');
         $image = $request->file('dogImage');    
+        
         $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
         
         if ($request->hasFile('dogImage')) {
@@ -49,12 +52,12 @@ class ApiController extends Controller
                 // Croppa::render(Croppa::url($path, 800, null));
             $dog = new Dog;
             $dog->user_id = $id;
-            $dog->name = $request->input('name');
-            $dog->breed = $request->input('breed');
+            $dog->name = $name;
+            $dog->breed = $breed;
             $dog->image = $file_name;
             $dog->save();
 
-            return response(compact('name', 'breed', 'image'), 200)
+            return response(compact('name', 'breed', 'file_name'), 200)
                   ->header('Content-Type', 'application/json');
 
 
