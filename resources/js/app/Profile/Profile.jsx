@@ -3,6 +3,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import CreateDog from '../Dog/CreateDog.jsx';
 
 import {UserContext} from '../App/App.jsx';
+import DogView from '../Dog/DogView.jsx';
 
 export default function Profile(props) 
 {
@@ -22,7 +23,8 @@ export default function Profile(props)
         <div>
              <p>{ user.name }</p>
             <p>{ user.surname }</p> 
-            {/* <CreateDog user_id={user_id}/> */}
+            <DogView />
+            <CreateDog /> 
 
         </div>   
     )}
