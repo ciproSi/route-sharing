@@ -63,42 +63,44 @@ const DisplayMapWithRoute = (props) => {
         });
         
         // showing geotagged route images
-        images.forEach((image) => {
-            // first check if the image is geotagged
-            if (image.lat == '') { return }
-            
-            const iconFeature = new Feature({
-                geometry: new Point(fromLonLat([image.lon,image.lat])),
-                // here i can define properties of feature
-                // name: route.name,
-                // length: route.length,
-                // elev: route.elevation_gain,
-                // id: route.id,
-            });
+        if (images) {
+            images.forEach((image) => {
+                // first check if the image is geotagged
+                if (image.lat == '') { return }
+                
+                const iconFeature = new Feature({
+                    geometry: new Point(fromLonLat([image.lon,image.lat])),
+                    // here i can define properties of feature
+                    // name: route.name,
+                    // length: route.length,
+                    // elev: route.elevation_gain,
+                    // id: route.id,
+                });
 
-            const iconStyle = new Style({
-                image: new Icon({
-                anchor: [0.5, 46],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                scale: 0.1,
-                src: '/storage/users-images/' + image.img_url,
-                }),
-            });
+                const iconStyle = new Style({
+                    image: new Icon({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    scale: 0.1,
+                    src: '/storage/users-images/' + image.img_url,
+                    }),
+                });
 
-            iconFeature.setStyle(iconStyle);
+                iconFeature.setStyle(iconStyle);
 
-            const vectorSource = new VectorSource({
-                features: [iconFeature],
-            });
-              
-            const vectorLayer = new VectorLayer({
-            source: vectorSource,
-            });
-    
-            mapObject.addLayer(vectorLayer);
+                const vectorSource = new VectorSource({
+                    features: [iconFeature],
+                });
+                
+                const vectorLayer = new VectorLayer({
+                source: vectorSource,
+                });
         
-        });
+                mapObject.addLayer(vectorLayer);
+            
+            });
+        }
 
         //allow user to define POIs
         mapObject.on('click', (e) => {
