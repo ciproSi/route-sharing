@@ -28,14 +28,11 @@ export default function Profile (props)
     if (user === null) {
         return ('Loading...')
     } else {
-        console.log(dogs);
 
         return (
-
+            
             <div>
-                
-                <p>{ user.name }</p>
-                <p>{ user.surname }</p> 
+                <p>{ user.name } { user.surname }</p>
                 <DogView dogs= { dogs }/>
                 <UserOwnedRoutes userID = { user.id }/>
                 <CreateDog setDogs = { setDogs } dogs = { dogs } /> 

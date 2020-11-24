@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import RouteBox from '../RouteBox/RouteBox';
 import axios from 'axios';
 
 // import { UserContext } from '../App/App.jsx';
@@ -35,7 +36,8 @@ const UserOwnedRoutes = (props) => {
             <div>
                 {
                     data.routes.map((route, index) => (
-                        <div> {route.name } </div>
+                        // <div> { route.name } </div>
+                        <RouteBox key={ index } route={ route } />
 
                     ))
                 }

@@ -127,3 +127,11 @@
 
 }
 
+.route-box {
+    border: 1px solid green;
+    margin: 1em;
+
+    .route-data {
+        display: flex;
+    }
+}

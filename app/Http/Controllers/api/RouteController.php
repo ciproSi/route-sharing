@@ -83,7 +83,7 @@ class RouteController extends Controller
         if ($request->query('all') == 'true') {
             $routes = Route::get();
         } else if ($user > 0 ) {
-            $routes = Route::where('user_id', '=', $user)->get();
+            $routes = Route::with(['images', 'activities'])->where('user_id', '=', $user)->get();
         } else {
             $routes = Route::
                         whereBetween('lat', [$lat - 0.5, $lat + 0.5])
