@@ -13,11 +13,11 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 
 const DisplayMapWithRoute = (props) => {
-    
+    const { zoom, url, centerCoordinates, images } = props;
 
     useEffect(() => {
         
-        const { zoom, url, centerCoordinates } = props;
+        
 
         const attributions =
             '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ' +
@@ -61,40 +61,44 @@ const DisplayMapWithRoute = (props) => {
                 zoom: zoom,
             }),
         });
-
-        // test
-
-        const iconFeature = new Feature({
-            geometry: new Point(fromLonLat([15.73699166,50.736377])),
-            // name: route.name,
-            // length: route.length,
-            // elev: route.elevation_gain,
-            // id: route.id,
-        });
         
-        const iconStyle = new Style({
-            image: new Icon({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            scale: 0.1,
-            src: '/storage/users-images/4jUp1sI7qUbTsif62KiKRZjG6rMr8m7Ur5a8e59l.jpeg',
-            }),
+        // showing geotagged route images
+        images.forEach((image) => {
+            // first check if the image is geotagged
+            if (image.lat == '') { return }
+            
+            const iconFeature = new Feature({
+                geometry: new Point(fromLonLat([image.lon,image.lat])),
+                // here i can define properties of feature
+                // name: route.name,
+                // length: route.length,
+                // elev: route.elevation_gain,
+                // id: route.id,
+            });
+
+            const iconStyle = new Style({
+                image: new Icon({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                scale: 0.1,
+                src: '/storage/users-images/' + image.img_url,
+                }),
+            });
+
+            iconFeature.setStyle(iconStyle);
+
+            const vectorSource = new VectorSource({
+                features: [iconFeature],
+            });
+              
+            const vectorLayer = new VectorLayer({
+            source: vectorSource,
+            });
+    
+            mapObject.addLayer(vectorLayer);
+        
         });
-
-        iconFeature.setStyle(iconStyle);
-
-        const vectorSource = new VectorSource({
-            features: [iconFeature],
-        });
-          
-        const vectorLayer = new VectorLayer({
-        source: vectorSource,
-        });
-
-        mapObject.addLayer(vectorLayer);
-        // test ends
-
 
         //allow user to define POIs
         mapObject.on('click', (e) => {

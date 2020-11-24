@@ -68,7 +68,11 @@ const RouteDetail = () => {
                     </div>
 
                     <div className="map-container">
-                        <DisplayMapWithRoute zoom='13' url={'/storage/gpx/' + data.route.url} centerCoordinates={[data.route.lon, data.route.lat]} />
+                        <DisplayMapWithRoute 
+                            zoom='13' url={'/storage/gpx/' + data.route.url}
+                            centerCoordinates={[data.route.lon, data.route.lat]}
+                            images ={ data.route.images }
+                        />
                     </div>
                     </>
                 )
