@@ -17,9 +17,9 @@ const Search = () => {
         
         // we assume that the function is getting coordinates if the queryData is array
         if (Array.isArray(queryData)) {
-            queryURL = '/api/routes?lon=' + queryData[0] + '&lat=' + queryData[1] + '&all=false';
+            queryURL = '/api/routes?lon=' + queryData[0] + '&lat=' + queryData[1];
         } else {
-            queryURL = '/api/routes?lon=&lat=&all=true';
+            queryURL = '/api/routes?all=true';
         }
         
         const response = await axios.get(queryURL);

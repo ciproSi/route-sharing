@@ -95,3 +95,35 @@
     }
 }
 
+.dogs-list {
+    display: flex;
+}
+
+.dog-container {
+    display: flex;
+
+    .dog-image-box {
+
+        .dog-image {
+            width: 150px;
+
+        }
+
+    }
+
+    .dog-data {
+
+        &__name {
+            font-size: 1em;
+            font-weight: bold;
+
+        }
+
+        &__breed {
+            font-size: .8em;
+        }
+    }
+
+
+}
+

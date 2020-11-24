@@ -10,19 +10,22 @@ export default function DogView (props) {
     if (dogs !== null) {
           console.log(dogs)
      return(
-         <ul>
-            { dogs.dogs.map(dog => (
+         <div className="dogs-list">
+            {
+                dogs.dogs.map(dog => (
+                    <div key={ dog.id } className="dog-container">
+                        <div className="dog-image-box">
+                            <img className="dog-image" src={ '/storage/users-images/' + dog.image } alt="image of dog"/>
+                        </div>
+                        <div className="dog-data">
+                            <div className="dog-data__name"><p>{ dog.name }</p></div>
+                            <div className="dog-data__breed">{ dog.breed }</div>
+                        </div>
+                    </div>
 
-                <li key={ dog.id }>
-
-                    <p>{ dog.name }</p>
-                    <p>{ dog.breed }</p>
-                    <img  src={ '/storage/users-images/' + dog.image } alt="image of dog"/>
-                    <hr/>
-                    
-                </li> 
-            ))}  
-        </ul>   
+                ))
+            }  
+        </div>   
     ) 
     } else {  
         return ('Loading...')

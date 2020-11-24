@@ -77,11 +77,13 @@ class RouteController extends Controller
         // get lon and lat values from query string
         $lon = $request->query('lon');
         $lat = $request->query('lat');
-        // $all = $request->query('all');
-        
-        // the api return all routes if there is a all=true in query
+        $user = intval($request->query('usr')); 
+
+        // the api return all routes if there is a all=true in query, or just specific user routes, if usr query is bigger then 0
         if ($request->query('all') == 'true') {
             $routes = Route::get();
+        } else if ($user > 0 ) {
+            $routes = Route::where('user_id', '=', $user)->get();
         } else {
             $routes = Route::
                         whereBetween('lat', [$lat - 0.5, $lat + 0.5])
@@ -89,7 +91,7 @@ class RouteController extends Controller
                         ->get();
         }
 
-        return response(compact('routes', 'lon', 'lat'), 200)
+        return response(compact('routes', 'lon', 'lat', 'user'), 200)
                   ->header('Content-Type', 'application/json');
 
     }

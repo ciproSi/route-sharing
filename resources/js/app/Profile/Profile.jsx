@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import CreateDog from '../Dog/CreateDog.jsx';
 import DogView from '../Dog/DogView.jsx';
+import UserOwnedRoutes from '../UserOwnedRoutes/UserOwnedRoutes';
 import { UserContext } from '../App/App.jsx';
 
 export default function Profile (props) 
@@ -36,6 +37,7 @@ export default function Profile (props)
                 <p>{ user.name }</p>
                 <p>{ user.surname }</p> 
                 <DogView dogs= { dogs }/>
+                <UserOwnedRoutes userID = { user.id }/>
                 <CreateDog setDogs = { setDogs } dogs = { dogs } /> 
             </div>   
         )
