@@ -44,9 +44,9 @@ class ApiController extends Controller
         $img->save();
         
         // save picture to the disk
-        $path = $img->store('public/users-images');
+        $path = $image->store('public/users-images');
         
-        $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp'];
+        $allowed_extensions = ['jpg', 'png', 'jpeg', 'bmp', 'JPG', 'BMP', 'JPEG'];
         
         if ($request->hasFile('dogImage')) {
             
