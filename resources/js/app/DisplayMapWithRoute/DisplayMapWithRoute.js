@@ -51,6 +51,8 @@ const DisplayMapWithRoute = (props) => {
             },
         });
 
+
+
         const mapObject = new Map({
             target: 'map',
             layers: [raster, vector],
@@ -59,6 +61,40 @@ const DisplayMapWithRoute = (props) => {
                 zoom: zoom,
             }),
         });
+
+        // test
+
+        const iconFeature = new Feature({
+            geometry: new Point(fromLonLat([15.73699166,50.736377])),
+            // name: route.name,
+            // length: route.length,
+            // elev: route.elevation_gain,
+            // id: route.id,
+        });
+        
+        const iconStyle = new Style({
+            image: new Icon({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            scale: 0.1,
+            src: '/storage/users-images/4jUp1sI7qUbTsif62KiKRZjG6rMr8m7Ur5a8e59l.jpeg',
+            }),
+        });
+
+        iconFeature.setStyle(iconStyle);
+
+        const vectorSource = new VectorSource({
+            features: [iconFeature],
+        });
+          
+        const vectorLayer = new VectorLayer({
+        source: vectorSource,
+        });
+
+        mapObject.addLayer(vectorLayer);
+        // test ends
+
 
         //allow user to define POIs
         mapObject.on('click', (e) => {
