@@ -18,8 +18,6 @@ class ReviewController extends Controller
         $rating = $request->input('rating');
         $text = $request->input('text');
         $user_id = $request->input('user_id');
-        // $user_name = $request->input('user_name');
-        // $user_surname = $request->input('user_surname');
 
         $review = new Review;
         $review->user_id = $user_id;
@@ -27,8 +25,6 @@ class ReviewController extends Controller
         $review->difficulty = $diff;
         $review->rating = $rating;
         $review->text = $text;
-        // $review->user_name = $user_name;
-        // $review->user_surname = $user_surname;
 
         $review->save();
 
