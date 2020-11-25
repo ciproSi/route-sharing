@@ -10,8 +10,8 @@ export default function CreateReview (props) {
 
     const user = useContext(UserContext);
 
-    const user_id = user.id;
-    //const route_id = props
+  
+    const { route_id } = props;
 
     const handleDifficultyChange = (event) => {
         setDifficulty(event.target.value);
@@ -26,8 +26,10 @@ export default function CreateReview (props) {
     }
 
     const handleSubmit = async (event) => {
+        
         event.preventDefault();
-
+        
+        const user_id = user.id;
         let review = new FormData();
 
         review.append('user_id', user_id);

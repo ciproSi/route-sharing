@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import DisplayMapWithRoute from '../DisplayMapWithRoute/DisplayMapWithRoute';
+import CreateReview from '../Review/CreateReview';
 
 const RouteDetail = () => {
     // get the id from url to fetch specific route and its relations
@@ -73,6 +74,9 @@ const RouteDetail = () => {
                             }
                             
                         </div>
+                        
+                        <CreateReview route_id={ data.route.id } />
+
                     </div>
 
                     <div className="map-container">
