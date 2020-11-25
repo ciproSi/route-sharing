@@ -66,13 +66,13 @@ class RouteController extends Controller
     public function view ($id)
     {
         
-        $route = Route::with(['images', 'activities', 'user', 'reviews'])->findOrFail($id);
-
+        $route = Route::with(['images', 'activities', 'user', 'reviews.user'])->findOrFail($id);
+        
         return response(compact('route'), 200)
                   ->header('Content-Type', 'application/json');
     }
 
-    // this API endpoint expecting lon and lat coordinates in the query string as a center geopoint for searching the DB
+    // this API endpoint expecting lon and lat coordinates, all or userid in the query string as a center geopoint for searching the DB
     public function getAll (Request $request)
     {
         // get lon and lat values from query string
