@@ -85,7 +85,6 @@ class ApiController extends Controller
 
         $img = ImageHandler::make($image->getRealPath());
         $img->orientate();
-        $exif = $img->exif();
         $img->resize(1000, 1000, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
@@ -113,5 +112,9 @@ class ApiController extends Controller
         $user = User::where('id', $id)->first();
         $user->photo = $file_name;
         $user->save();
+        
+        return response(compact('file_name'), 200)
+                  ->header('Content-Type', 'application/json');
+
     }
 }

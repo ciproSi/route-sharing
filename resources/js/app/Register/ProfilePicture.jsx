@@ -18,11 +18,13 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-export default function ProfilePicture () {
+export default function ProfilePicture (props) {
     const classes = useStyles();
     const [userImage, setUserImage] = useState([]);
     const user = useContext(UserContext);
-    const userPhoto = user.photo
+    
+    const { userPhoto, setProfilePicture } = props;
+    
     const [addPicture, setAddPicture] = useState(false);
 
     const id = user.id;
@@ -39,19 +41,21 @@ export default function ProfilePicture () {
         picture.append('userImage', userImage, userImage.name );
 
         const response = await axios.post('/api/user/' + id + '/pic', picture);
+
+        if (response.status === 200) {
+            setProfilePicture(response.data.file_name);
+        }
     };
     console.log(userPhoto);
 
 if (user === null) {
     return ('Loading...')
 } else {
-    //return ('Hee')
 
     if ( userPhoto !== null ) {
         return(
                 <>
-                    <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + user.photo } />
-                    {/* <img  src={ '/storage/users-images/' + user.photo } alt="user image"/> */}
+                    <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + userPhoto } />
                     <div onClick={() => {setAddPicture(true)}}>Change profile picture</div>
                     { addPicture ? (
                     <form onSubmit={handleSubmit}>

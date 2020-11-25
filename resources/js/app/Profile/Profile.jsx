@@ -10,7 +10,7 @@ export default function Profile (props)
 {
     const [addNewDog, setAddNewDog] = useState(false);
     const user = useContext(UserContext);
-    
+    const [profilePicture, setProfilePicture] = useState(null);
     const [dogs, setDogs] = useState(null);
     const [activeTab, setActiveTab] = useState();
 
@@ -20,8 +20,8 @@ export default function Profile (props)
             const url = `/api/dog/${id}`;
             const response = await fetch(url);
             const data = await response.json();
-            console.log(data);
             setDogs(data);
+            setProfilePicture(user.photo);
             setActiveTab('dogs'); 
         }
     }
@@ -67,7 +67,7 @@ export default function Profile (props)
             
             <div>
                 <p>{ user.name } { user.surname }</p>
-                <ProfilePicture /> 
+                <ProfilePicture userPhoto={ profilePicture } setProfilePicture={ setProfilePicture }/> 
                 <div className="tabs">
                     <div className="tab" id="routes" onClick={ handleTab }>Your routes</div>
                     <div className="tab" id="dogs" onClick={ handleTab }>Your dogs</div>
