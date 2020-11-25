@@ -1,8 +1,25 @@
 import React, {useState, useContext, useEffect,} from 'react';
 import {UserContext} from '../App/App.jsx';
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+    large: {
+        width: theme.spacing(20),
+        height: theme.spacing(20),
+    },
+  }));
+
+
 export default function ProfilePicture () {
+    const classes = useStyles();
     const [userImage, setUserImage] = useState([]);
     const user = useContext(UserContext);
     const userPhoto = user.photo
@@ -33,7 +50,8 @@ if (user === null) {
     if ( userPhoto !== null ) {
         return(
                 <>
-                    <img  src={ '/storage/users-images/' + user.photo } alt="user image"/>
+                    <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + user.photo } />
+                    {/* <img  src={ '/storage/users-images/' + user.photo } alt="user image"/> */}
                     <div onClick={() => {setAddPicture(true)}}>Change profile picture</div>
                     { addPicture ? (
                     <form onSubmit={handleSubmit}>
@@ -50,7 +68,8 @@ if (user === null) {
         )} else {
             return(
             <>
-                <img  src={ '/storage/users-images/Portrait_placeholder.png' } alt="user image"/>
+                <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + user.photo } />
+                {/* <img  src={ '/storage/users-images/Portrait_placeholder.png' } alt="user image"/> */}
                 <div onClick={() => {setAddPicture(true)}}>Add profile picture</div>
                 { addPicture ? (
                 <form onSubmit={handleSubmit}>
