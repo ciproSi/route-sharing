@@ -3,11 +3,13 @@ import CreateDog from '../Dog/CreateDog.jsx';
 import DogView from '../Dog/DogView.jsx';
 import ProfilePicture from '../Register/ProfilePicture.jsx';
 import UserOwnedRoutes from '../UserOwnedRoutes/UserOwnedRoutes';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 import { UserContext } from '../App/App.jsx';
 
 export default function Profile (props) 
 {
+    
     const [addNewDog, setAddNewDog] = useState(false);
     const user = useContext(UserContext);
     const [profilePicture, setProfilePicture] = useState(null);
@@ -31,14 +33,13 @@ export default function Profile (props)
     }, [user]) 
 
     const handleTab = (e) => {
-        console.log(e.target.id);
-        setActiveTab(e.target.id);
+        setActiveTab(e.target.innerHTML);
     }
 
     // conditional redenring for tabs
     let tabElm;
     let dogInput;
-    if (activeTab == 'dogs') {
+    if (activeTab == 'Your dogs') {
         
         if (addNewDog) {
             dogInput = (
@@ -49,11 +50,14 @@ export default function Profile (props)
         }
         tabElm = (
             <div className="profile-row">
+                {/* show all dogs here */}
                 <DogView dogs= { dogs }/>
-                <AddCircleIcon  style={{ fontSize: 60 }} onClick={ ()=>{setAddNewDog(!addNewDog)} }/>
+                <Button variant="contained" color="primary" onClick={ () => {setAddNewDog(!addNewDog)} }>
+                    Add new best friend
+                </Button>
             </div>
         )
-    } else if (activeTab == 'routes') {
+    } else if (activeTab == 'Your routes') {
         tabElm = (
             <UserOwnedRoutes userID = { user.id }/>
         )
@@ -68,11 +72,14 @@ export default function Profile (props)
             <div>
                 <p>{ user.name } { user.surname }</p>
                 <ProfilePicture userPhoto={ profilePicture } setProfilePicture={ setProfilePicture }/> 
+                
+                
                 <div className="tabs">
-                    <div className="tab" id="routes" onClick={ handleTab }>Your routes</div>
-                    <div className="tab" id="dogs" onClick={ handleTab }>Your dogs</div>
-                    <div className="tab" id="bucket">Bucket list</div>
-
+                    <ButtonGroup color="secondary" variant="text" aria-label="outlined primary button group">
+                        <Button onClick={ handleTab }>Your routes</Button>
+                        <Button onClick={ handleTab }>Your dogs</Button>
+                        <Button onClick={ handleTab }>Bucket list</Button>
+                    </ButtonGroup>
                 </div>
             { tabElm }
             { dogInput }
