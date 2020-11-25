@@ -26,6 +26,8 @@ const RouteDetail = () => {
         fetchData();
     }, []);
 
+    console.log(data);
+
     return (
         <div className="route-detail-container">
         {

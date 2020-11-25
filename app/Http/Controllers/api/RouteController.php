@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use phpGPX\Models\GpxFile;
 use App\Models\Route;
+use App\Models\Review;
 use App\Models\Activity;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
@@ -65,7 +66,7 @@ class RouteController extends Controller
     public function view ($id)
     {
         
-        $route = Route::with(['images', 'activities', 'user'])->findOrFail($id);
+        $route = Route::with(['images', 'activities', 'user', 'reviews'])->findOrFail($id);
 
         return response(compact('route'), 200)
                   ->header('Content-Type', 'application/json');

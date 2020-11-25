@@ -58,7 +58,7 @@ export default function CreateDog (props) {
             // set state in parent component which when false hide the form for dog addition
             props.setAddNewDog(false);
             
-            props.setDogs({...dogs});
+            props.setDogs({...dogs}); 
 
         }
 

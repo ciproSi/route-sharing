@@ -30,12 +30,16 @@ export default function CreateReview (props) {
         event.preventDefault();
         
         const user_id = user.id;
+        const user_name = user.name;
+        const user_surname = user.surname;
         let review = new FormData();
 
         review.append('user_id', user_id);
         review.append('difficulty', difficulty);
         review.append('rating', rating);
         review.append('text', text);
+        review.append('user_name', user_name);
+        review.append('user_surname', user_surname);
 
         const response = await axios.post('/route/' + route_id + '/review', review);
     }

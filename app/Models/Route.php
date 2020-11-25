@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Activity;
 use App\Models\Image;
 use App\Models\User;
+use App\Models\Review;
 class Route extends Model
 {
     use HasFactory;
@@ -24,5 +25,10 @@ class Route extends Model
     public function user ()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function reviews ()
+    {
+        return $this->hasMany(Review::class);
     }
 }
