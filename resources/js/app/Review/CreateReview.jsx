@@ -44,6 +44,18 @@ export default function CreateReview (props) {
         const response = await axios.post('/route/' + route_id + '/review', review);
     }
 
+    if (response.status === 200) {
+        const { reviews } = props;
+        reviews.reviews.push({
+            'user_name': response.data.user_name,
+            'rating': response.data.rating,
+            'difficulty': response.data.difficulty,
+            'user_id': response.data.user_id,
+            'rating': response.data.rating,
+    });
+
+
+
     return (
         <>
             <form onSubmit={handleSubmit}>
