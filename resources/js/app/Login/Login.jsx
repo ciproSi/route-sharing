@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import ApiClient from '../ApiClient';
 import { UserContext } from '../App/App.jsx';
+import axios from 'axios';
 
 export default function Login({ fetchUser }) {
     const user = useContext(UserContext);
@@ -30,9 +30,7 @@ export default function Login({ fetchUser }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await ApiClient.post('/login', {
-            body: JSON.stringify(values)
-        });
+        const response = await axios.post('/login', values);
 
         if (response.status === 200) {
             // we are logged in!

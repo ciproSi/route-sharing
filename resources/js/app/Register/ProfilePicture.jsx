@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +39,7 @@ export default function ProfilePicture (props) {
     const handleFileChange = (event) => {
         setUserImage(event.target.files[0]);
     }
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -89,6 +91,8 @@ export default function ProfilePicture (props) {
                             </div>
 
                             <button type="submit">Change your profile picture</button>
+
+
                         </form>
                     ) : ('')
                 }
