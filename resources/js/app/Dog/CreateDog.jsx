@@ -55,7 +55,9 @@ export default function CreateDog (props) {
                     'image': response.data.file_name,
                     'id': response.data.dog_id
             });
-
+            // set state in parent component which when false hide the form for dog addition
+            props.setAddNewDog(false);
+            
             props.setDogs({...dogs});
 
         }

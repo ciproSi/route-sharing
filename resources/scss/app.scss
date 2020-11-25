@@ -95,3 +95,69 @@
     }
 }
 
+.dogs-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-row {
+    display: flex;
+    align-items: center;
+}
+
+.dog-container {
+    display: flex;
+
+    .dog-image-box {
+
+        .dog-image {
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+
+        }
+
+    }
+
+    .dog-data {
+
+        &__name {
+            font-size: 1em;
+            font-weight: bold;
+
+        }
+
+        &__breed {
+            font-size: .8em;
+        }
+    }
+
+
+}
+
+.route-box {
+    border: 1px solid green;
+    margin: 1em;
+
+    .route-data {
+        display: flex;
+    }
+}
+
+.tabs {
+    display: flex;
+    margin: .5em 0em;
+
+    .tab {
+        font-size: 1.5em;
+        padding: .2em 0.5em;
+        border: 1px solid black;
+        cursor: pointer;
+
+        &:hover {
+            background-color: lightgray;
+        }
+    }
+}
