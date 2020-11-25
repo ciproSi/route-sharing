@@ -1,11 +1,9 @@
 import React, {useState, useEffect, useContext } from 'react';
-import {Link} from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 import Logout from '../Logout/Logout.jsx';
-
+import { UserContext } from '../App/App.jsx';
 
 export default function Header({ user, fetchUser }) {
-    console.log({user});
    return( 
     <header>
         <nav>

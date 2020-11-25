@@ -32,7 +32,6 @@ export default function DogView (props) {
                     <div key={ dog.id } className="dog-container">
                         <div className="dog-image-box">
                             <Avatar alt="Dog picture" className={ classes.large } src={ '/storage/users-images/' + dog.image } />
-                            {/* <img className="dog-image" src={ '/storage/users-images/' + dog.image } alt="image of dog"/> */}
                         </div>
                         <div className="dog-data">
                             <div className="dog-data__name"><p>{ dog.name }</p></div>

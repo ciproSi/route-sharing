@@ -58,7 +58,7 @@ export default function App() {
                     <Switch>
                         <Route exact path="/" children={<Home/>}/>
                         <Route path="/login" children={<Login fetchUser={ fetchUser } />}/>
-                        <Route path="/register" children={<Register/>}/>
+                        <Route path="/register" children={<Register fetchUser={ fetchUser }/>}/>
                         <Route path="/profile" children={<Profile />}/>
                         <Route path="/new-route" children={ <GPXUploadForm /> } />
                         <Route path="/route/:id" children={<RouteDetail /> } />
