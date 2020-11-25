@@ -3,6 +3,8 @@ import {UserContext} from '../App/App.jsx';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
     large: {
         width: theme.spacing(20),
         height: theme.spacing(20),
+    },
+    medium: {
+        width: theme.spacing(15),
+        height: theme.spacing(15),
     },
   }));
 
@@ -44,49 +50,49 @@ export default function ProfilePicture (props) {
 
         if (response.status === 200) {
             setProfilePicture(response.data.file_name);
+            setAddPicture(false);
         }
     };
-    console.log(userPhoto);
 
-if (user === null) {
-    return ('Loading...')
-} else {
+    // determine if we have profile picture or if we need to show avatar place holder
+    let avatar;
+    if (userPhoto !== null) {
+        avatar = (
+            <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + userPhoto } />
+        )    
+    } else {
+        // avatar place holder is user's initials
+        const userNameFirstLetter = user.name.charAt(0);
+        const userSurnameFirstLetter = user.surname.charAt(0);
+        avatar = (
+            <Avatar className={ classes.medium }>{ userNameFirstLetter } { userSurnameFirstLetter }</Avatar>
+        )
+    }
 
-    if ( userPhoto !== null ) {
-        return(
-                <>
-                    <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + userPhoto } />
-                    <div onClick={() => {setAddPicture(true)}}>Change profile picture</div>
-                    { addPicture ? (
-                    <form onSubmit={handleSubmit}>
-                        <div className="formElement">
-                        <label htmlFor="user-pic">Choose your picture</label>
-                        <input type="file" name="user-pic" onChange={ handleFileChange } />
-                        </div>
-
-                        <button type="submit">Change your profile picture</button>
-                    </form>
-                    ) : ('')
-                    }
-                </>
-        )} else {
-            return(
+    if (user === null) {
+        return ('Loading...')
+    } else {
+        return (
             <>
-                <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + user.photo } />
-                {/* <img  src={ '/storage/users-images/Portrait_placeholder.png' } alt="user image"/> */}
-                <div onClick={() => {setAddPicture(true)}}>Add profile picture</div>
-                { addPicture ? (
-                <form onSubmit={handleSubmit}>
-                    <div className="formElement">
-                    <label htmlFor="user-pic">Choose Your picture</label>
-                    <input type="file" name="user-pic" onChange={ handleFileChange } />
-                    </div>
+                {/* return avatar conditionally rendered above */}
+                { avatar }
 
-                    <button type="submit">Add your profile picture</button>
-                </form>
+                <Button color="primary" onClick={ () => {setAddPicture(!addPicture)} }>
+                    Change profile picture
+                </Button>
+                { 
+                    addPicture ? (
+                        <form onSubmit={ handleSubmit }>
+                            <div className="formElement">
+                                <label htmlFor="user-pic">Choose your picture</label>
+                                <input type="file" name="user-pic" onChange={ handleFileChange } />
+                            </div>
+
+                            <button type="submit">Change your profile picture</button>
+                        </form>
                     ) : ('')
-                }                
+                }
             </>
-            )
-        }}
+    )
+    }
 }

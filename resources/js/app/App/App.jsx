@@ -10,6 +10,8 @@ import ApiClient from '../ApiClient.js';
 import axios from 'axios';
 import GPXUploadForm from '../GPXUploadForm/GPXUploadForm'; 
 import RouteDetail from '../RouteDetail/RouteDetail.js';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from '../Theme/first-theme';
 
 
 
@@ -40,6 +42,7 @@ export default function App() {
 
     return (
         < UserContext.Provider value={ user }>
+            <ThemeProvider theme={ theme }>
             <Router>
 
                 <UserContext.Consumer>
@@ -63,6 +66,7 @@ export default function App() {
                 </main>
 
             </Router>
+            </ThemeProvider>
         </UserContext.Provider>
     )
 }

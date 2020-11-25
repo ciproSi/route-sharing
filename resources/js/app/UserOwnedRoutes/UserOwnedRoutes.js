@@ -33,7 +33,7 @@ const UserOwnedRoutes = (props) => {
         )
     } else {
         return (
-            <div>
+            <div className="routes-list-cards">
                 {
                     data.routes.map((route, index) => (
                         // <div> { route.name } </div>
