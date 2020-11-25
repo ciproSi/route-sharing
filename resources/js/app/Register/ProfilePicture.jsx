@@ -3,52 +3,56 @@ import {UserContext} from '../App/App.jsx';
 import axios from 'axios';
 
 export default function ProfilePicture () {
-    const [picture, setPicture] = useState('');
+    const [userImage, setUserImage] = useState([]);
     const user = useContext(UserContext);
+    const userPhoto = user.photo
+    const [addPicture, setAddPicture] = useState(false);
 
     const id = user.id;
 
-    const url = `/api/user/${id}/pic`;
-
-    const loadData = async () => {
-        if (user) {
-            const response = await fetch(url);
-            const data = await response.json();
-
-            setPicture(data); 
-
-        } else {
-            return 'loading...';
-        }
+    const handleFileChange = (event) => {
+        setUserImage(event.target.files[0]);
     }
 
-    useEffect(() => {
-        loadData();
-        
-    }, []) 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
+        let picture = new FormData();
 
+        picture.append('userImage', userImage, userImage.name );
+
+        const response = await axios.post('/api/user/' + id + '/pic', picture);
+    };
+    console.log(userPhoto);
 
 if (user === null) {
     return ('Loading...')
 } else {
+    //return ('Hee')
 
-    if ( picture !== null ) {
+    if ( userPhoto !== null ) {
         return(
                 <>
-                    <img  src={ '/storage/users-images/' + user.image } alt="user image"/>
+                    <img  src={ '/storage/users-images/' + user.photo } alt="user image"/>
+                    <div onClick={() => {setAddPicture(true)}}>Change profile picture</div>
+                    { addPicture ? (
                     <form onSubmit={handleSubmit}>
                         <div className="formElement">
-                        <label htmlFor="user-pic">Choose dog picture</label>
+                        <label htmlFor="user-pic">Choose your picture</label>
                         <input type="file" name="user-pic" onChange={ handleFileChange } />
                         </div>
 
                         <button type="submit">Change your profile picture</button>
                     </form>
+                    ) : ('')
+                    }
                 </>
         )} else {
+            return(
             <>
                 <img  src={ '/storage/users-images/Portrait_placeholder.png' } alt="user image"/>
+                <div onClick={() => {setAddPicture(true)}}>Add profile picture</div>
+                { addPicture ? (
                 <form onSubmit={handleSubmit}>
                     <div className="formElement">
                     <label htmlFor="user-pic">Choose Your picture</label>
@@ -57,6 +61,9 @@ if (user === null) {
 
                     <button type="submit">Add your profile picture</button>
                 </form>
+                    ) : ('')
+                }                
             </>
+            )
         }}
 }
