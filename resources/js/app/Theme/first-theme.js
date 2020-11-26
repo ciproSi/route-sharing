@@ -16,14 +16,22 @@ const theme = createMuiTheme({
       } 
     },
     typography: {
-        fontFamily: ['Staatliches',
+        fontFamily: ['Quicksand',
         'Arial',
         'sans-serif',
         ].join(','),
         fontSize: 14,
         
+        h1: {
+            fontFamily: ['Staatliches',
+            'Arial',
+            ].join(','),
+            fontSize: '6rem',
+            fontWeight: '500',
+        },
+
         h3: {
-            fontFamily: ['Quicksand',
+            fontFamily: ['Staatliches',
             'Arial',
             ].join(','),
             fontSize: '1.5rem',

@@ -13,6 +13,8 @@
     
     .route-details-container {
         width: 50vw;
+
+        
     }
     .map-container {
         width: 50vw;
@@ -187,4 +189,8 @@ a {
         display: flex;
         align-items: center;
     }
+}
+
+.route-addition-data {
+    display: flex;
 }
