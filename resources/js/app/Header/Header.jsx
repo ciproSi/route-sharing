@@ -17,10 +17,15 @@ import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
     button: {
         fontSize: theme.spacing(2.5),
+    },
+    avatar: {
+        width: theme.spacing(2.5),
+        height: theme.spacing(2.5),
     }
   }));
 
@@ -41,11 +46,21 @@ const Header = (props) => {
         setAnchorEl(null);
     };
 
-    const handleProfile = () => {
+    const handleProfile = (e) => {
         setAnchorEl(null);
-        setRedirect('/profile');
+        
+        // redirect based on item menu clicked
+        if (e.target.innerHTML.includes('profile')) {
+            setRedirect('/profile');
+        } else if (e.target.innerHTML.includes('Create')) {
+            setRedirect('/new-route');
+        }
+
+
+        
     }
 
+    // logout user and redirect to home
     const handleLogout = async () => {
         setAnchorEl(null);
         const response = await axios.post('/logout');
@@ -54,7 +69,6 @@ const Header = (props) => {
                 setRedirect('/');
             }
 
-        // setRedirect('/logout');
     }
 
     return( 
@@ -69,17 +83,24 @@ const Header = (props) => {
                 </Button>
             </div>
             <div className="header-profile">
+            
+            {/* display login/user section depending on user login status */}
             {user ? (
                     <div>
-                    <IconButton
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={ handleMenu }
-                        color="inherit"
-                    >
-                        <AccountCircle />
-                    </IconButton>
+                    <div className="user-box">
+                        <IconButton
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={ handleMenu }
+                            color="inherit"
+                        >
+                            <Avatar alt="User profile picture" src={ '/storage/users-images/' + user.photo } />
+                        </IconButton>
+                        <Typography onClick={ handleProfile }>
+                            {user.name} {user.surname}
+                        </Typography>
+                    </div>
                     <Menu
                         id="menu-appbar"
                         anchorEl={ anchorEl }
@@ -95,22 +116,23 @@ const Header = (props) => {
                         open={ open }
                         onClose={ handleClose }
                     >
-                        <MenuItem onClick={ handleProfile }>My routes</MenuItem>
-                        <MenuItem onClick={ handleProfile }>My dogs</MenuItem>
+                        <MenuItem onClick={ handleProfile }>My profile</MenuItem>
+                        <MenuItem onClick={ handleProfile }>Create new route</MenuItem>
                         <MenuItem onClick={ handleLogout }>Logout</MenuItem>
                     </Menu>
                     </div>
                     ) : (
 
                         <Button
-                    onClick={ () => { setRedirect ('/login')} }
-                    color="secondary"
-                    className={ classes.button }
-                >
-                    Login
-                </Button>
+                            onClick={ () => { setRedirect ('/login')} }
+                            color="secondary"
+                            className={ classes.button }
+                        >
+                            Login
+                        </Button>
                     )}
                 
+            {/* you need to redirect as a last step to allow the header component to render first */}
             {redirect && ( <Redirect to={ redirect } /> )}
 
         </div>
@@ -120,27 +142,3 @@ const Header = (props) => {
 }
 
 export default Header;
-
-
-
-
-    // <header>
-    //     <nav>
-    //         <Link to='/'>Home</Link>
-    //         {
-    //                 user !== null ? (
-    //                     <>
-    //                     <Link to="/profile">{ user.name }</Link>
-    //                     <Link to="/new-route">New route</Link>
-    //                     <Logout fetchUser={ props.fetchUser } />
-    //                     </>
-    //                 ) : (
-    //                     <>
-    //                         <Link to="/login">Login</Link>
-
-    //                         <Link to="/register">Register</Link>
-    //                     </>
-    //                 )
-    //             }
-    //     </nav>
-    // </header>

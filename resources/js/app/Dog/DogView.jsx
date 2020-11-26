@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(20),
         height: theme.spacing(20),
     },
-  }));
+}));
 
 export default function DogView (props) {
     
