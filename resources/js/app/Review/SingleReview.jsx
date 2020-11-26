@@ -12,7 +12,9 @@ const useStyles = makeStyles({
     inline: {
         display: 'inline',
       },
+    
   });
+
 
   export default function SingleReview (props) {
     const classes = useStyles();
@@ -25,14 +27,14 @@ const useStyles = makeStyles({
     let avatar;
     if (review.user.photo !== null) {
         avatar = (
-            <Avatar alt="Profile picture" className={ classes.large } src={ '/storage/users-images/' + review.user.photo } />
+            <Avatar alt="Profile picture" src={ '/storage/users-images/' + review.user.photo } />
         )    
     } else {
         // avatar place holder is user's initials
         const userNameFirstLetter = review.user.name.charAt(0);
         const userSurnameFirstLetter = review.user.surname.charAt(0);
         avatar = (
-            <Avatar className={ classes.medium }>{ userNameFirstLetter } { userSurnameFirstLetter }</Avatar>
+            <Avatar className={ classes.large }>{ userNameFirstLetter } { userSurnameFirstLetter }</Avatar>
         )
     }
 
@@ -43,21 +45,26 @@ const useStyles = makeStyles({
                 <ListItemAvatar>
                     { avatar }
                 </ListItemAvatar>
+                <ListItemText 
+                    primary={ "Rating: " + review.rating }
+                    secondary={
+                        <React.Fragment>
+                        <Typography
+                            component="span"
+                            variant="body2"
+                            color="textPrimary"
+                        >
+                           {'by: '+ review.user.name + " " + review.user.surname + ': ' + review.text}
+                        </Typography>
+                            {/* <Typography>
+                            {review.text}
+                            </Typography> */}
+                        </React.Fragment>
+                    }
+                />
                 <ListItemText
-                primary={"Rating: " + review.rating + "; Difficulty: " + review.difficulty}
-                secondary={
-                    <React.Fragment>
-                    <Typography
-                        component="span"
-                        variant="body2"
-                        className={classes.inline}
-                        color="textPrimary"
-                    >
-                        {review.user.name + " " + review.user.surname + ": "}
-                    </Typography>
-                        {review.text}
-                    </React.Fragment>
-                }
+                primary={ 'Difficulty: ' + review.difficulty }
+                
                 />
             </ListItem>  
             <Divider variant="inset" component="li" />

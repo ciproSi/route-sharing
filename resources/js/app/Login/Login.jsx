@@ -83,7 +83,7 @@ export default function Login({ fetchUser }) {
     if (user == null ) {
         return (
             <div>
-
+              <Container component="main" maxWidth="xs">
               <CssBaseline />
               <div className={classes.paper}>
                   <Box width={200}> 
@@ -140,6 +140,7 @@ export default function Login({ fetchUser }) {
                   </Grid>
                 </form>
               </div>
+              </Container>
               </div>
           );
     } else {
