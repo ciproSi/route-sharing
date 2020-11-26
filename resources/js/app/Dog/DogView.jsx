@@ -46,7 +46,7 @@ export default function DogView (props) {
         </div>   
     ) 
     } else {  
-        return ('Loading...')
+        return ('No dogs')
       }  
 
 

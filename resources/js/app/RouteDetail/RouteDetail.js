@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import DisplayMapWithRoute from '../DisplayMapWithRoute/DisplayMapWithRoute';
 import CreateReview from '../Review/CreateReview';
+import ReviewView from '../Review/ReviewView';
 
 const RouteDetail = () => {
     // get the id from url to fetch specific route and its relations
@@ -11,13 +12,16 @@ const RouteDetail = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [displayImagesOnMap, setDisplayImagesOnMap] = useState(false);
-
+    const [reviews, setReviews] = useState(null);
+    
+    
     const fetchData = async () => {
         const response = await axios.get('/api/route/' + id);
 
         if (response.status === 200) {
             setData(response.data);
             setLoading(false);
+            setReviews(response.data.route.reviews);
         }
 
     }
@@ -26,7 +30,8 @@ const RouteDetail = () => {
         fetchData();
     }, []);
 
-    console.log(data);
+
+    console.log(reviews);
 
     return (
         <div className="route-detail-container">
@@ -77,7 +82,8 @@ const RouteDetail = () => {
                             
                         </div>
                         
-                        <CreateReview route_id={ data.route.id } />
+                         <CreateReview reviews={ reviews} setReviews={ setReviews } route_id={ data.route.id } />
+                         <ReviewView reviews={ reviews} /> 
 
                     </div>
 

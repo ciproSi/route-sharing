@@ -30,29 +30,31 @@ export default function CreateReview (props) {
         event.preventDefault();
         
         const user_id = user.id;
-        const user_name = user.name;
-        const user_surname = user.surname;
         let review = new FormData();
 
         review.append('user_id', user_id);
         review.append('difficulty', difficulty);
         review.append('rating', rating);
         review.append('text', text);
-        review.append('user_name', user_name);
-        review.append('user_surname', user_surname);
 
         const response = await axios.post('/route/' + route_id + '/review', review);
-    }
+    
 
     if (response.status === 200) {
         const { reviews } = props;
-        reviews.reviews.push({
-            'user_name': response.data.user_name,
+        console.log(reviews);
+        reviews.push({
+            'id': "a",
+            'difficulty': response.data.diff,
             'rating': response.data.rating,
-            'difficulty': response.data.difficulty,
-            'user_id': response.data.user_id,
-            'rating': response.data.rating,
-    });
+            'text': response.data.text,
+            'user': {'name': user.name,
+                     'surname': user.surname}
+        });
+
+        props.setReviews(reviews);
+    }
+}
 
 
 
