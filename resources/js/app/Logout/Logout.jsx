@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import ApiClient from '../ApiClient';
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
-export default function Logout({ fetchUser }) {
+export default function Logout( props ) {
+    const [redirect, setRedirect] =useState();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await ApiClient.post('/logout');
-
-        fetchUser(); // tell App to fetch the user again (and find out that he is logged-out)
+        const response = await axios.post('/logout');
+            if (response.status === 204) {
+                props.fetchUser();
+                setRedirect('/');
+            }
     }
 
-    return (
-        <a href="#" onClick={ handleSubmit }>Logout</a>
-    )
+    if (redirect) {
+        return (
+            <Redirect to={ redirect } />
+        )
+    } else {
+        return (
+            <a href="#" onClick={ handleSubmit }>Logout</a>
+        )
+    }
 
 }
