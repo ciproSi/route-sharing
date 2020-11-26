@@ -176,10 +176,11 @@ a {
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     
-    .header-links {
+   .header-links {
         display: flex;
-        
+        align-items: center;
     }
 
     .user-box {

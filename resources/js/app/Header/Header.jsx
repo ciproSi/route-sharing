@@ -18,10 +18,12 @@ import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        fontSize: theme.spacing(2.5),
+        fontSize: theme.spacing(2),
+        marginRight: theme.spacing(3),
     },
     avatar: {
         width: theme.spacing(2.5),
@@ -55,9 +57,6 @@ const Header = (props) => {
         } else if (e.target.innerHTML.includes('Create')) {
             setRedirect('/new-route');
         }
-
-
-        
     }
 
     // logout user and redirect to home
@@ -73,20 +72,28 @@ const Header = (props) => {
 
     return( 
         <div className="header">
-            <div className="header-links">
-                <Button
-                    onClick={ () => { setRedirect ('/')} }
-                    color="secondary"
-                    className={ classes.button }
-                >
-                    Find a route
-                </Button>
+            <div className="header-logo">
+                <Box width={100}
+                     onClick={ () => { setRedirect ('/')} }
+                > 
+                    <img src="/storage/logo/Trek4dog_Logo_Green.svg" alt="trek4dog logo"/>
+                </Box>
+                
             </div>
-            <div className="header-profile">
-            
+            <div className="header-links">
+                <div>
+                <Button
+                        onClick={ () => { setRedirect ('/')} }
+                        color="secondary"
+                        className={ classes.button }
+                        variant="contained"
+                    >
+                        Find a route
+                </Button>
+                </div>
             {/* display login/user section depending on user login status */}
             {user ? (
-                    <div>
+                    // <div>
                     <div className="user-box">
                         <IconButton
                             aria-label="account of current user"
@@ -100,7 +107,7 @@ const Header = (props) => {
                         <Typography onClick={ handleProfile }>
                             {user.name} {user.surname}
                         </Typography>
-                    </div>
+                    {/* </div> */}
                     <Menu
                         id="menu-appbar"
                         anchorEl={ anchorEl }
