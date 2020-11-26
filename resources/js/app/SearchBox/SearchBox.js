@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+}));
+
 
 const SearchBox = (props) => {
+    const classes = useStyles();
     const [searchValue, setSearchvalue] = useState('');
     const [searchErrors, setSearchErrors] = useState(null);
 
@@ -35,9 +46,29 @@ const SearchBox = (props) => {
     }
     return (
         <div>
-            <form action="" onSubmit={ handleSubmit }>
-                <input type="text" onChange={ handleChange }/>
-                <button>Search</button>
+            <form onSubmit={ handleSubmit }>
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="search"
+                    label="Search for any place"
+                    name="search"
+                    autoComplete="searchValue"
+                    autoFocus
+                    onChange={ handleChange }
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={ handleSubmit }
+                  >
+                    Search
+                  </Button>
             </form>
             {
                 searchErrors ? (
