@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +46,7 @@ const SearchBox = (props) => {
         }
     }
     return (
-        <div>
+        <Container component="main" maxWidth="xs">
             <form onSubmit={ handleSubmit }>
                 <TextField
                     variant="outlined"
@@ -80,8 +81,7 @@ const SearchBox = (props) => {
                 </div>
                 )
             }
-            
-        </div>
+        </Container>
 
     )
 

@@ -82,7 +82,8 @@ export default function Login({ fetchUser }) {
 
     if (user == null ) {
         return (
-            <Container component="main" maxWidth="xs">
+            <div>
+
               <CssBaseline />
               <div className={classes.paper}>
                   <Box width={200}> 
@@ -139,7 +140,7 @@ export default function Login({ fetchUser }) {
                   </Grid>
                 </form>
               </div>
-            </Container>
+              </div>
           );
     } else {
         setRedirect('/profile');
