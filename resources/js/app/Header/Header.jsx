@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import Logout from '../Logout/Logout.jsx';
 import { UserContext } from '../App/App.jsx';
 
-export default function Header({ user, fetchUser }) {
-   return( 
+const Header = (props) => {
+    const user = useContext(UserContext);
+
+    return( 
     <header>
         <nav>
             <Link to='/'>Home</Link>
@@ -13,7 +15,7 @@ export default function Header({ user, fetchUser }) {
                         <>
                         <Link to="/profile">{ user.name }</Link>
                         <Link to="/new-route">New route</Link>
-                        <Logout fetchUser={ fetchUser } />
+                        <Logout fetchUser={ props.fetchUser } />
                         </>
                     ) : (
                         <>
@@ -27,3 +29,5 @@ export default function Header({ user, fetchUser }) {
     </header>
    );
 }
+
+export default Header;

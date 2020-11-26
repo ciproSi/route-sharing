@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-export default function Logout({ fetchUser }) {
+export default function Logout( props ) {
     const [redirect, setRedirect] =useState();
 
     const handleSubmit = async (event) => {
@@ -10,7 +10,7 @@ export default function Logout({ fetchUser }) {
 
         const response = await axios.post('/logout');
             if (response.status === 204) {
-                fetchUser();
+                props.fetchUser();
                 setRedirect('/');
             }
     }

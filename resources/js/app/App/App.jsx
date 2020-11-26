@@ -24,13 +24,20 @@ export default function App() {
     
 
     const fetchUser = async () => {
+        // const response = await axios.get('api/user');
+        // if (response.data.id !== undefined) { // if response contains id (user's id)
+        //     setUser(response.data); // set the user 
+        //     return;
+        // } 
+        // setUser(null);
+
         const response = await ApiClient.get('/api/user');
         const response_data = await response.json();
-
+        
         if (response_data.id !== undefined) { // if response contains id (user's id)
-            setUser(response_data); // set the user in the state
+            setUser(response_data); // set the user 
         } else {
-            setUser(null); // unset the user in the state
+            setUser(null); // unset the user 
         }
     }
 
@@ -38,34 +45,25 @@ export default function App() {
         fetchUser();
     }, []);
 
-    //if
-
     return (
         < UserContext.Provider value={ user }>
             <ThemeProvider theme={ theme }>
-            <Router>
+                <Router>
 
-                <UserContext.Consumer>
-                    {
-                        value => (
-                            <Header user={ value } fetchUser={ fetchUser }/>
+                    <Header fetchUser={ fetchUser }/>
 
-                        )
-                    }
-                </UserContext.Consumer>
+                    <main>
+                        <Switch>
+                            <Route exact path="/" children={<Home/>}/>
+                            <Route path="/login" children={<Login fetchUser={ fetchUser } />}/>
+                            <Route path="/register" children={<Register fetchUser={ fetchUser }/>}/>
+                            <Route path="/profile" children={<Profile />}/>
+                            <Route path="/new-route" children={ <GPXUploadForm /> } />
+                            <Route path="/route/:id" children={<RouteDetail /> } />
+                        </Switch>
+                    </main>
 
-                <main>
-                    <Switch>
-                        <Route exact path="/" children={<Home/>}/>
-                        <Route path="/login" children={<Login fetchUser={ fetchUser } />}/>
-                        <Route path="/register" children={<Register fetchUser={ fetchUser }/>}/>
-                        <Route path="/profile" children={<Profile />}/>
-                        <Route path="/new-route" children={ <GPXUploadForm /> } />
-                        <Route path="/route/:id" children={<RouteDetail /> } />
-                    </Switch>
-                </main>
-
-            </Router>
+                </Router>
             </ThemeProvider>
         </UserContext.Provider>
     )
