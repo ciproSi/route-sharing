@@ -39,6 +39,7 @@ export default function Profile (props)
     // conditional redenring for tabs
     let tabElm;
     let dogInput;
+    console.log(dogs);
     if (activeTab == 'Your dogs') {
         
         if (addNewDog) {

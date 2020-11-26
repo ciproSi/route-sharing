@@ -13,7 +13,6 @@ export default function CreateDog (props) {
     const user = useContext(UserContext);
 
     const user_id = user.id;
-    //const user_id = props.user_id;
 
     const handleNameChange = (event) => {
         setName(event.target.value);

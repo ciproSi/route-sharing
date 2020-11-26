@@ -82,8 +82,8 @@ const RouteDetail = () => {
                             
                         </div>
                         
-                         <CreateReview reviews={ reviews} setReviews={ setReviews } route_id={ data.route.id } />
-                         <ReviewView reviews={ reviews} /> 
+                         <CreateReview reviews={ reviews } setReviews={ setReviews } route_id={ data.route.id } />
+                         <ReviewView reviews={ reviews } /> 
 
                     </div>
 

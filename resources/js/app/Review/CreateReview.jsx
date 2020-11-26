@@ -43,7 +43,9 @@ export default function CreateReview (props) {
     if (response.status === 200) {
         const { reviews } = props;
         console.log(reviews);
-        reviews.push({
+        let newReviews = [...reviews];
+
+        newReviews.push({
             'id': "a",
             'difficulty': response.data.diff,
             'rating': response.data.rating,
@@ -52,7 +54,7 @@ export default function CreateReview (props) {
                      'surname': user.surname}
         });
 
-        props.setReviews(reviews);
+        props.setReviews([...newReviews]);
     }
 }
 
