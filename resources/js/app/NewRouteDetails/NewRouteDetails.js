@@ -191,27 +191,6 @@ const NewRouteDetails = (props) => {
                     <Checkbox checkboxes={ activities} handleChange={ handleCheckBoxChange }/>
                     <Divider className={ classes.divider }/>
 
-                    {/* <FormControl variant="outlined" className={ classes.formControl }>
-                        <Select
-                            labelId="visibility-select-label"
-                            id="visibility"
-                            name="visibility"
-                            value={ routeDetails.visibility }
-                            onChange={ handleChange }
-                        >
-                            <MenuItem value={1}>Public</MenuItem>
-                            <MenuItem value={0}>Private</MenuItem>
-                        </Select>
-                    </FormControl> */}
-                    
-                    
-                    {/* <div className="form-group">
-                        <label htmlFor="visibility">Route visibility:</label>
-                            <select id="visibility" name="visibility" onChange={ handleChange }>
-                                <option value="public">Public</option>
-                                <option value="private">Private</option>
-                            </select>
-                    </div> */}
                     <Typography gutterBottom>
                         Route visibility
                     </Typography>

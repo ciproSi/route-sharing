@@ -8,12 +8,17 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import ReviewView from './ReviewView';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    divider: {
+        // marginTop: theme.spacing(0.8),
+        // marginBottom: theme.spacing(0.8),
+        maxWidth: 600,
+    },
     inline: {
         display: 'inline',
       },
     
-  });
+  }));
 
 
   export default function SingleReview (props) {
@@ -67,7 +72,7 @@ const useStyles = makeStyles({
                 
                 />
             </ListItem>  
-            <Divider variant="inset" component="li" />
+            <Divider className={ classes.divider } component="li" />
         </>
     )
 

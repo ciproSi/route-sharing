@@ -1,11 +1,33 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import DisplayMapWithRoute from '../DisplayMapWithRoute/DisplayMapWithRoute';
 import CreateReview from '../Review/CreateReview';
 import ReviewView from '../Review/ReviewView';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import { UserContext } from '../App/App.jsx';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      maxWidth: 300,
+    },
+    divider: {
+        marginTop: theme.spacing(0.8),
+        marginBottom: theme.spacing(0.8),
+        maxWidth: 600,
+    },
+    header: {
+        color: theme.palette.text.primary,
+    },
+  }));
 
 const RouteDetail = () => {
+    const classes = useStyles();
+    const user = useContext(UserContext);
+
     // get the id from url to fetch specific route and its relations
     const { id } = useParams();
     
@@ -13,15 +35,15 @@ const RouteDetail = () => {
     const [loading, setLoading] = useState(true);
     const [displayImagesOnMap, setDisplayImagesOnMap] = useState(false);
     const [reviews, setReviews] = useState(null);
-    
+    const [createReviewElm, setCreateReviewElm] = useState();
     
     const fetchData = async () => {
         const response = await axios.get('/api/route/' + id);
 
         if (response.status === 200) {
             setData(response.data);
-            setLoading(false);
             setReviews(response.data.route.reviews);
+            setLoading(false);
         }
 
     }
@@ -30,8 +52,14 @@ const RouteDetail = () => {
         fetchData();
     }, []);
 
-
-    console.log(reviews);
+    // let user to add review if he is signed in and data are loaded
+    useEffect(() => {
+        if (user && data.hasOwnProperty('route')) {
+            setCreateReviewElm(
+                <CreateReview reviews={ reviews } setReviews={ setReviews } route_id={ data.route.id } />
+            )
+        }
+    }, [data]);
 
     return (
         <div className="route-detail-container">
@@ -64,26 +92,39 @@ const RouteDetail = () => {
                                     ))
                                 }
                         </div>
+                        <Divider className={ classes.divider }/>
+                        <Typography variant="h3"
+                            className={classes.header}
+                        >
+                            Route images:
+                        </Typography>
+                        <Button
+                            onClick={ () => {setDisplayImagesOnMap(!displayImagesOnMap)} }
+                            color="primary"
+                        >
+                            {
+                        displayImagesOnMap ? ('Hide images from map') : ('Show images on the map')
+                        }
+                        </Button>
+                                
                         <div className="route-images">
-                            <div className="route-images__header"><h4>Route images:</h4></div>
-                            <div className="div-link" onClick={ () => {setDisplayImagesOnMap(!displayImagesOnMap)} }>
-                                {
-                                displayImagesOnMap ? ('Hide images from map') : ('Show images on the map')
-                                }
-                                
-                                
-                            </div>
                             {
                                 data.route.images.map((image, index) => (
-                                    <img key={ index } src={ '/storage/users-images/' + image.img_url } alt="Route image"/>
+                                    <img key={ index } src={ '/storage/users-images/' + image.img_url } alt="Route image"/>     
                                 )) 
                                 
                             }
-                            
                         </div>
+                        <Divider className={ classes.divider }/>
+                        <Typography variant="h3"
+                            className={classes.header}
+                        >
+                            Reviews:
+                        </Typography>
                         
-                         <CreateReview reviews={ reviews } setReviews={ setReviews } route_id={ data.route.id } />
-                         <ReviewView reviews={ reviews } /> 
+                        <ReviewView reviews={ reviews } />
+                        
+                        { createReviewElm } 
 
                     </div>
 
