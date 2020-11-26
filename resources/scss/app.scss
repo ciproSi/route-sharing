@@ -167,3 +167,24 @@
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
+a {
+    text-decoration: none;
+    margin: 0 2em;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+   .header-links {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-box {
+        display: flex;
+        align-items: center;
+    }
+}

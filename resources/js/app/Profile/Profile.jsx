@@ -6,10 +6,11 @@ import UserOwnedRoutes from '../UserOwnedRoutes/UserOwnedRoutes';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import { UserContext } from '../App/App.jsx';
+import queryString from 'query-string'
 
 export default function Profile (props) 
 {
-    
+    // const [query, setQuery] = useState(queryString.parse(location.search));
     const [addNewDog, setAddNewDog] = useState(false);
     const user = useContext(UserContext);
     const [profilePicture, setProfilePicture] = useState(null);
@@ -25,13 +26,14 @@ export default function Profile (props)
             setDogs(data);
             setProfilePicture(user.photo);
             setActiveTab('dogs'); 
+            
         }
     }
 
     useEffect(() => {
         loadData();
-    }, [user]) 
-
+    }, [user])
+    
     const handleTab = (e) => {
         setActiveTab(e.target.innerHTML);
     }

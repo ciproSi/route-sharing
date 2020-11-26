@@ -3,6 +3,9 @@ import axios from 'axios';
 import ListAllRoutes from '../ListAllRoutes/ListAllRoutes';
 import DisplayMapWithPoints from '../DisplayMapWithPoints/DisplayMapWithpoints';
 import SearchBox from '../SearchBox/SearchBox';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 const Search = () => {
     const [routes, setRoutes] = useState([]);
@@ -33,11 +36,20 @@ const Search = () => {
 
     if (waitingForSearchInput) {
         return (
-            <>
-                <h3>Search for dogroute anywhere in the world</h3>
+            <Container maxWidth="xs">
+                <Typography variant="h1" component="h2">
+                    Find the best route for your best friend
+                </Typography>
                 <SearchBox handleSearchInput={ fetchData }/>
-                <button onClick={() => {fetchData('all')}}>Show all routes</button>
-            </>
+                <Button
+                    type="submit"
+                    color="primary"
+                    fullWidth
+                    onClick={() => {fetchData('all')}}
+                >
+                    Show all routes
+                </Button>
+            </Container>
             
         )
     } else if (loading) {
@@ -49,7 +61,14 @@ const Search = () => {
             <div className="search-container">
                 <div className="routes-list">
                     <SearchBox handleSearchInput={ fetchData }/>
-                    <button onClick={() => {fetchData('all')}}>Show all routes</button>
+                    <Button
+                    type="submit"
+                    color="primary"
+                    fullWidth
+                    onClick={() => {fetchData('all')}}
+                    >
+                        Show all routes
+                    </Button>
                     <ListAllRoutes routes={ routes } />
                 </div>
                 <div className="map-container">
