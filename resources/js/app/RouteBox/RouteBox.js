@@ -25,14 +25,14 @@ const RouteBox = (props) => {
     const { route } = props;
     const [redirect, setRedirect] = useState();
 
-/*     let cardImage;
+     let cardImage;
     if (route.images.length > 0) {
         cardImage = '/storage/users-images/' + route.images[0].img_url;
         console.log(cardImage);
     } else {
         cardImage = '/storage/logo/t4d_test_logo.png';
         console.log(cardImage);
-    } */
+    } 
 
     if (redirect) {
         return (
@@ -42,11 +42,11 @@ const RouteBox = (props) => {
     return (
         <Card variant="outlined" className={classes.root} onClick={ () => { setRedirect('/route/' + route.id) } }>
             <CardActionArea>
-{/*                 <CardMedia
+                 <CardMedia
                     className={classes.media}
                     image={ cardImage }
                     title="route main image"
-                /> */}
+                /> 
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                         { route.name }

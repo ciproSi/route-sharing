@@ -82,12 +82,12 @@ class RouteController extends Controller
 
         // the api return all routes if there is a all=true in query, or just specific user routes, if usr query is bigger then 0
         if ($request->query('all') == 'true') {
-            $routes = Route::get();
+            $routes = Route::with(['images', 'activities'])->get();
         } else if ($user > 0 ) {
             $routes = Route::with(['images', 'activities'])->where('user_id', '=', $user)->get();
         } else {
-            $routes = Route::
-                        whereBetween('lat', [$lat - 0.5, $lat + 0.5])
+            $routes = Route::with(['images', 'activities'])
+                        ->whereBetween('lat', [$lat - 0.5, $lat + 0.5])
                         ->whereBetween('lon', [$lon - 0.5, $lat + 0.5])
                         ->get();
         }
