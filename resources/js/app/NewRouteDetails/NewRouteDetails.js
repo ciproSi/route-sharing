@@ -2,13 +2,29 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom';
 import Checkbox from '../Checkbox/Checkbox'
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
+import Container from '@material-ui/core/Container';
+
+const useStyles = makeStyles({
+    root: {
+      width: 300,
+    },
+  });
+  
+// needed difficulty slider
+function valuetext(value) {
+    return value;
+}
 
 const NewRouteDetails = (props) => {
+    const classes = useStyles();
     const [redirect, setRedirect] = useState(null);
     const [activities, setActivities] = useState([]);
     const [routeImages, setRouteImages] = useState([]);
     const [routeDetails, setRouteDetails] = useState({
-        difficulty: '',
+        difficulty: 1,
         description: '',
         visibility: 'public',
         activities: []
@@ -41,6 +57,16 @@ const NewRouteDetails = (props) => {
         setRouteImages(e.target.files);
     }
 
+    // set the route difficutly to state while preserving the others values
+    const handleDifficultyChange = (event, newValue) => {
+        console.log(newValue);
+        setRouteDetails(prevValues => {
+            return ({...prevValues,
+                     'difficulty': newValue
+            })
+        });
+    }
+    
     const handleChange = (e) => {
         const allowedNames = ['difficulty', 'description', 'visibility'],
               name = e.target.name,
@@ -97,13 +123,49 @@ const NewRouteDetails = (props) => {
         )
     } else {
         return ( 
+            // <div className="form">
+            //     <Typography id="discrete-slider" gutterBottom>
+            //         Difficulty
+            //     </Typography>
+            //     <Slider
+            //         defaultValue={1}
+            //         getAriaValueText={valuetext}
+            //         aria-labelledby="discrete-slider"
+            //         valueLabelDisplay="auto"
+            //         step={1}
+            //         marks
+            //         min={1}
+            //         max={5}
+            //     />
+            // </div>
+
             <div className="form">
                 <form action="/new-route" onSubmit={ handleSubmit } >
+                
+                    <Typography id="discrete-slider" gutterBottom>
+                        Difficulty
+                    </Typography>
+                    <Slider
+                        className={ classes.root }
+                        defaultValue={1}
+                        getAriaValueText={valuetext}
+                        aria-labelledby="discrete-slider"
+                        valueLabelDisplay="auto"
+                        step={1}
+                        marks
+                        min={1}
+                        max={5}
+                        name="difficulty"
+                        value={ routeDetails.difficulty }
+                        onChange= { handleDifficultyChange }
+                    />
+
+               
                     
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label htmlFor="difficulty">Difficulty (1-5)</label>
                         <input type="text" name="difficulty" onChange={ handleChange }/>
-                    </div>
+                    </div> */}
                     
                     <div className="form-group">
                         <label htmlFor="description">Description</label>
@@ -128,6 +190,7 @@ const NewRouteDetails = (props) => {
                     </div>
 
                     <button>Save new route</button>
+                    
                 </form>
             </div>
         )

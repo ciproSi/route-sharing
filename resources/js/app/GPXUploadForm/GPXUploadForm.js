@@ -3,8 +3,33 @@ import axios from 'axios';
 import DisplayMapWithRoute from '../DisplayMapWithRoute/DisplayMapWithRoute';
 import NewRouteDetails from '../NewRouteDetails/NewRouteDetails';
 import { UserContext } from '../App/App.jsx';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles((theme) => ({
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    header: {
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+    },
+    routeName: {
+        color: theme.palette.text.primary,
+    },
+    data: {
+        marginRight: theme.spacing(3),
+        color: theme.palette.text.primary,
+        fontFamily: theme.typography.h1.fontFamily,
+    }
+   
+}));
 
 const GPXUploadForm = () => {
+    const classes = useStyles();
     const user = useContext(UserContext);
 
     const [routeName, setRouteName] = useState('');
@@ -70,20 +95,41 @@ const GPXUploadForm = () => {
         // first step of route addition - show only input for gpx upload and route name
         return (
 
-            <div className="new-route-form" >
-                <form action="/new-route" onSubmit={ handleSubmit }>
-                    <div className="form-group">
-                        <label htmlFor="routeName">Route name:</label>
-                        <input type="text" name="routeName" onChange={ handleChange } value={ routeName } />
-                    </div>
-    
-                    <div className="form-group">
-                        <label htmlFor="gpxfile">Choose GPX file with route</label>
-                        <input type="file" name="gpxfile" onChange={ handleFileChange }/>
-                    </div>
-                    <button>Next step</button>
-                </form>
-            </div>
+            <Container maxWidth="xs">
+                <Typography variant="h3"
+                    className={classes.header}
+                >
+                    You are helping the others by creating new route. Thank you!
+                </Typography>
+                <form onSubmit={ handleSubmit }>
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="routeName"
+                    label="Route name"
+                    name="routeName"
+                    autoComplete="routeName"
+                    autoFocus
+                    onChange={ handleChange }
+                  />
+                  <div className="form-group">
+                    <label htmlFor="gpxfile">Choose GPX file of route</label>
+                    <input type="file" name="gpxfile" onChange={ handleFileChange }/>
+                  </div>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={ handleSubmit }
+                  >
+                    Next step
+                  </Button>
+            </form>
+            </Container>
     
         )
     } else {
@@ -100,9 +146,32 @@ const GPXUploadForm = () => {
         return (
             <div className="new-route-form">
                 <div className="route-details-container">
-                    <div className="route__name">{ name }</div>
-                    <div className="route-details-container__length">{ length / 1000 } km</div>
-                    <div className="route-details-container__elev">{ elevation } m</div>
+                    <Typography
+                        variant="h3"
+                        className={classes.routeName}
+                    >
+                        { name }    
+                    </Typography>
+                    <div className="route-addition-data">
+                        <Typography
+                            variant="h6"
+                            className={classes.data}
+                        >
+                            Length: { length / 1000 } km     
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            className={classes.data}
+                        >
+                            |    
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            className={classes.data}
+                        >
+                            Total elevation: { elevation } m    
+                        </Typography>
+                    </div>
                     
                     <NewRouteDetails data={routeData}/>
                 

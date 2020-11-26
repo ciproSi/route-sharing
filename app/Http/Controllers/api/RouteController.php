@@ -103,7 +103,7 @@ class RouteController extends Controller
         
         // TO DO: validation needs to be finished!
         $this->validate($request, [
-            'difficulty' => 'required | numeric | min:1 | max: 5',
+            'difficulty' => 'required | numeric | min:0 | max: 5',
             'description' => 'string'
         ]);
 
