@@ -5,15 +5,36 @@ import Checkbox from '../Checkbox/Checkbox'
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Divider from '@material-ui/core/Divider';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    // width of the difficulty slider
     root: {
       width: 300,
     },
-  });
+    description:{
+        maxWidth: 600,
+    },
+    formControl: {
+        margin: theme.spacing(0.5),
+        minWidth: 120,
+    },
+    divider: {
+        marginTop: theme.spacing(0.8),
+        marginBottom: theme.spacing(0.8),
+        maxWidth: 600,
+    },
+    submit: {
+        marginTop: theme.spacing(1),
+    }
+  }));
   
-// needed difficulty slider
+// needed for difficulty slider
 function valuetext(value) {
     return value;
 }
@@ -26,7 +47,7 @@ const NewRouteDetails = (props) => {
     const [routeDetails, setRouteDetails] = useState({
         difficulty: 1,
         description: '',
-        visibility: 'public',
+        visibility: 1,
         activities: []
     });
 
@@ -123,73 +144,108 @@ const NewRouteDetails = (props) => {
         )
     } else {
         return ( 
-            // <div className="form">
-            //     <Typography id="discrete-slider" gutterBottom>
-            //         Difficulty
-            //     </Typography>
-            //     <Slider
-            //         defaultValue={1}
-            //         getAriaValueText={valuetext}
-            //         aria-labelledby="discrete-slider"
-            //         valueLabelDisplay="auto"
-            //         step={1}
-            //         marks
-            //         min={1}
-            //         max={5}
-            //     />
-            // </div>
 
             <div className="form">
-                <form action="/new-route" onSubmit={ handleSubmit } >
+                <form  onSubmit={ handleSubmit } >
                 
                     <Typography id="discrete-slider" gutterBottom>
-                        Difficulty
+                        How would you rate diffulty? ({ routeDetails.difficulty } / 5)
                     </Typography>
-                    <Slider
-                        className={ classes.root }
-                        defaultValue={1}
-                        getAriaValueText={valuetext}
-                        aria-labelledby="discrete-slider"
-                        valueLabelDisplay="auto"
-                        step={1}
-                        marks
-                        min={1}
-                        max={5}
-                        name="difficulty"
-                        value={ routeDetails.difficulty }
-                        onChange= { handleDifficultyChange }
-                    />
+                    <div>
+                        <Slider
+                            className={ classes.root }
+                            defaultValue={1}
+                            getAriaValueText={valuetext}
+                            aria-labelledby="discrete-slider"
+                            valueLabelDisplay="auto"
+                            step={1}
+                            marks
+                            min={1}
+                            max={5}
+                            name="difficulty"
+                            value={ routeDetails.difficulty }
+                            onChange= { handleDifficultyChange }
+                        />
 
-               
-                    
-                    {/* <div className="form-group">
-                        <label htmlFor="difficulty">Difficulty (1-5)</label>
-                        <input type="text" name="difficulty" onChange={ handleChange }/>
-                    </div> */}
-                    
-                    <div className="form-group">
-                        <label htmlFor="description">Description</label>
-                        <textarea name="description" rows="8" cols="60" onChange={ handleChange } />
+                        
+
                     </div>
                     
-                    <h3>Suitable for</h3>
-                    {/* adds one checkbox for every activity */}
-                    <Checkbox checkboxes={ activities} handleChange={ handleCheckBoxChange }/>
+                    <TextField
+                        id="description"
+                        name="description"
+                        label="Route description"
+                        multiline
+                        fullWidth
+                        className={ classes.description }
+                        rows={8}
+                        variant="outlined"
+                        onChange={ handleChange }
+                    />
+                    
+                    <Divider className={ classes.divider }/>
 
-                    <div className="form-group">
+                    <Typography gutterBottom>
+                        Choose all activities this route is suitable for
+                    </Typography>
+                    <Checkbox checkboxes={ activities} handleChange={ handleCheckBoxChange }/>
+                    <Divider className={ classes.divider }/>
+
+                    {/* <FormControl variant="outlined" className={ classes.formControl }>
+                        <Select
+                            labelId="visibility-select-label"
+                            id="visibility"
+                            name="visibility"
+                            value={ routeDetails.visibility }
+                            onChange={ handleChange }
+                        >
+                            <MenuItem value={1}>Public</MenuItem>
+                            <MenuItem value={0}>Private</MenuItem>
+                        </Select>
+                    </FormControl> */}
+                    
+                    
+                    {/* <div className="form-group">
                         <label htmlFor="visibility">Route visibility:</label>
                             <select id="visibility" name="visibility" onChange={ handleChange }>
                                 <option value="public">Public</option>
                                 <option value="private">Private</option>
                             </select>
-                    </div>
+                    </div> */}
+                    <Typography gutterBottom>
+                        Route visibility
+                    </Typography>
+
+                    <FormControl variant="outlined" className={ classes.formControl }>
+                        <Select
+                            labelId="visibility-select-label"
+                            id="visibility"
+                            name="visibility"
+                            value={ routeDetails.visibility }
+                            onChange={ handleChange }
+                        >
+                            <MenuItem value={1}>Public</MenuItem>
+                            <MenuItem value={0}>Private</MenuItem>
+                        </Select>
+                    </FormControl>
 
                     <div className="form-group">
-                            <label htmlFor="route_image">Choose route picture</label>
+                    <Typography gutterBottom>
+                    Choose route pictures
+                    </Typography>
+                            {/* <label htmlFor="route_images">Choose route picture</label> */}
                             <input type="file" name="route_images" onChange={ handleFileChange } multiple/>
                     </div>
 
-                    <button>Save new route</button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className={ classes.submit }
+                        onClick={ handleSubmit }
+                    >
+                    Save the route
+                  </Button>
                     
                 </form>
             </div>

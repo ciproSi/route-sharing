@@ -194,3 +194,11 @@ a {
 .route-addition-data {
     display: flex;
 }
+
+.difficulty-visibility-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 600px;
+
+}
