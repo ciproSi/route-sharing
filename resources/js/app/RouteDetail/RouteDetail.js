@@ -52,15 +52,6 @@ const RouteDetail = () => {
         fetchData();
     }, []);
 
-    // let user to add review if he is signed in and data are loaded
-    useEffect(() => {
-        if (user && data.hasOwnProperty('route')) {
-            setCreateReviewElm(
-                <CreateReview reviews={ reviews } setReviews={ setReviews } route_id={ data.route.id } />
-            )
-        }
-    }, [data]);
-
     return (
         <div className="route-detail-container">
         {
@@ -124,7 +115,8 @@ const RouteDetail = () => {
                         
                         <ReviewView reviews={ reviews } />
                         
-                        { createReviewElm } 
+                        { user && <CreateReview reviews={ reviews } setReviews={ setReviews } route_id={ data.route.id } />}
+                       
 
                     </div>
 
