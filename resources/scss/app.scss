@@ -167,3 +167,22 @@
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
+a {
+    text-decoration: none;
+    margin: 0 2em;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    
+    .header-links {
+        display: flex;
+        
+    }
+
+    .header-profile {
+        
+    }
+}
