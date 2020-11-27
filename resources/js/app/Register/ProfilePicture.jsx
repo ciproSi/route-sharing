@@ -90,7 +90,16 @@ export default function ProfilePicture (props) {
                                 <input type="file" name="user-pic" onChange={ handleFileChange } />
                             </div>
 
-                            <button type="submit">Change your profile picture</button>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={ handleSubmit }
+                            >
+                                Submit
+                            </Button>
 
 
                         </form>

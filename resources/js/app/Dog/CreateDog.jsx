@@ -2,13 +2,37 @@ import React, {useState, useContext} from 'react';
 import {UserContext} from '../App/App.jsx';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
+const useStyles = makeStyles((theme) => ({
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    header: {
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+    },
+    routeName: {
+        color: theme.palette.text.primary,
+    },
+    data: {
+        marginRight: theme.spacing(3),
+        color: theme.palette.text.primary,
+        fontFamily: theme.typography.h1.fontFamily,
+    }
+   
+}));
 
 export default function CreateDog (props) {
     const [name, setName] = useState('');
     const [breed, setBreed] = useState('');
     const [dogImage, setDogImage] = useState([]);
     const [redirect, setRedirect] = useState();
+    const classes = useStyles();
 
     const user = useContext(UserContext);
 
@@ -67,7 +91,54 @@ export default function CreateDog (props) {
 
      
         return (
-            <>
+            <Container maxWidth="xs">
+                                <Typography variant="h3"
+                    className={classes.header}
+                >
+                    Create new dog.
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Dog name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                        onChange={ handleNameChange }
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="breed"
+                        label="Breed"
+                        name="breed"
+                        autoComplete="breed"
+                        autoFocus
+                        onChange={ handleBreedChange }
+                    />
+                    <div className="formElement">
+                        <label htmlFor="dog-pic">Choose dog picture</label>
+                        <input type="file" name="dog-pic" onChange={ handleFileChange } />
+                    </div>
+                    <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={ handleSubmit }
+                  >
+                    Submit
+                  </Button>
+                </form>
+            </Container>
+/*             <>
                 <form onSubmit={handleSubmit}>
                     <div className="formElement">
                         <label htmlFor="name">
@@ -88,7 +159,7 @@ export default function CreateDog (props) {
 
                     <button type="submit">Submit</button>
                 </form>
-            </>
+            </> */
         )
         
 }

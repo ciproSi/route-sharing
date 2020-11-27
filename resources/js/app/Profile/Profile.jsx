@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    dogFrom: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
 }));
 
 export default function Profile (props) 
@@ -70,12 +74,12 @@ export default function Profile (props)
             )
         }
         tabElm = (
-            <div className="profile-row">
+            <div className={classes.dogForm}>
                 {/* show all dogs here */}
-                <DogView dogs= { dogs }/>
                 <Button variant="contained" color="primary" onClick={ () => {setAddNewDog(!addNewDog)} }>
                     Add new best friend
                 </Button>
+                <DogView dogs= { dogs }/>
             </div>
         )
     } else if (activeTab == 'Your routes') {
@@ -91,7 +95,7 @@ export default function Profile (props)
         return (
             
             <div>
-                <Container maxWidth="s" className={classes.cont}>
+                <Container maxWidth="xs" className={classes.cont}>
                     <Typography gutterBottom variant="h3" component="h2">
                         { user.name } { user.surname }
                     </Typography>
