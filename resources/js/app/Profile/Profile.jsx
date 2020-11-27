@@ -6,11 +6,11 @@ import UserOwnedRoutes from '../UserOwnedRoutes/UserOwnedRoutes';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import { UserContext } from '../App/App.jsx';
-import queryString from 'query-string'
+import Typography from '@material-ui/core/Typography';
 
 export default function Profile (props) 
 {
-    // const [query, setQuery] = useState(queryString.parse(location.search));
+    
     const [addNewDog, setAddNewDog] = useState(false);
     const user = useContext(UserContext);
     const [profilePicture, setProfilePicture] = useState(null);
@@ -26,14 +26,13 @@ export default function Profile (props)
             setDogs(data);
             setProfilePicture(user.photo);
             setActiveTab('dogs'); 
-            
         }
     }
 
     useEffect(() => {
         loadData();
-    }, [user])
-    
+    }, [user]) 
+
     const handleTab = (e) => {
         setActiveTab(e.target.innerHTML);
     }
@@ -45,7 +44,7 @@ export default function Profile (props)
     if (activeTab == 'Your dogs') {
         
         if (addNewDog) {
-            dogInput = (
+            dogInput = ( 
                 <div className="create-dog-form">
                         <CreateDog setDogs = { setDogs } dogs = { dogs } setAddNewDog={ setAddNewDog } /> 
                 </div>
@@ -73,7 +72,9 @@ export default function Profile (props)
         return (
             
             <div>
-                <p>{ user.name } { user.surname }</p>
+                <Typography gutterBottom variant="h3" component="h2">
+                    { user.name } { user.surname }
+                </Typography>
                 <ProfilePicture userPhoto={ profilePicture } setProfilePicture={ setProfilePicture }/> 
                 
                 

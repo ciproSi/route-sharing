@@ -10,9 +10,7 @@ const ListAllRoutes = (props) => {
 
                         <RouteBox key={ index } route={ route } />
                         
-/*                         <div key={ index } className="route-list__name">
-                            <Link to={'/route/' + route.id }> { route.name } </Link>
-                        </div>  */
+
                     ))
 
                 }
