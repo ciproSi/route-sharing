@@ -70,33 +70,34 @@ const RouteDetail = () => {
                     <>
                     
                     <div className="route-data-container">
-                    <div className="route-data__name">{ data.route.name } <span className="route-data__author">(author: { data.route.user.name } { data.route.user.surname })</span></div>
+                        <div className="route-data__name">
+                            <Typography variant="h2">
+                                { data.route.name }
+                            </Typography>
+                        </div>
                         <div className="route-data">
-                            <div className="route-data__item">Total elevation: { data.route.elevation_gain } m</div>
-                            <div className="route-data__item">Distance: { data.route.length / 1000 } km</div>
-                            <div className="route-data__item">Difficulty: { data.route.difficulty } / 5</div>
-                            <div className="route-data__item">Ratings: TO DO %</div>
+                            <Typography variant="h3">
+                                Total elevation: { data.route.elevation_gain } m
+                            </Typography>
+                            <Typography variant="h3">
+                                Distance: { data.route.length / 1000 } km
+                            </Typography>
+                            <Typography variant="h3">
+                                Difficulty: { data.route.difficulty } / 5
+                            </Typography>
                         </div>
-                        <div className="route-description">
-                            <div className="route-description__header"><h4>Description:</h4></div>
-                            <div className="route-description__content">{ data.route.description }</div>
-                        </div>
-                        <div className="suitable-for">
-                            <div className="suitable-for__header"><h4>Suitable for</h4></div>
-                                {
-                                    data.route.activities.map((activity, index) => (
-                                        <div key= { index } className="suitale-for__item">
-                                            { activity.name }
-                                        </div>
-                                    ))
-                                }
-                        </div>
-                        <Divider className={ classes.divider }/>
-                        <Typography variant="h3"
-                            className={classes.header}
-                        >
-                            Route images:
+                        <Typography>
+                                (author: { data.route.user.name } { data.route.user.surname })
                         </Typography>
+
+                        <div className="route-images">
+                            {
+                                data.route.images.map((image, index) => (
+                                    <img key={ index } src={ '/storage/users-images/' + image.img_url } alt="Route image"/>     
+                                )) 
+                                
+                            }
+                        </div>
                         <Button
                             onClick={ () => {setDisplayImagesOnMap(!displayImagesOnMap)} }
                             color="primary"
@@ -105,14 +106,27 @@ const RouteDetail = () => {
                         displayImagesOnMap ? ('Hide images from map') : ('Show images on the map')
                         }
                         </Button>
-                                
-                        <div className="route-images">
-                            {
-                                data.route.images.map((image, index) => (
-                                    <img key={ index } src={ '/storage/users-images/' + image.img_url } alt="Route image"/>     
-                                )) 
-                                
-                            }
+
+                        <div className="route-description">
+                            <Typography variant="h3" className={ classes.header} >
+                                Route description:
+                            </Typography>
+                            <Typography>
+                                { data.route.description }
+                            </Typography>
+                        </div>
+                        <Divider className={ classes.divider }/>
+                        <div className="suitable-for">
+                            <Typography variant="h3" className={ classes.header} >
+                                This route is suitable for those activities:
+                            </Typography>
+                                {
+                                    data.route.activities.map((activity, index) => (
+                                        <Typography key={ index }>
+                                            { activity.name }
+                                        </Typography>
+                                    ))
+                                }
                         </div>
                         <Divider className={ classes.divider }/>
                         <Typography variant="h3"

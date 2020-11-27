@@ -30,6 +30,15 @@ const theme = createMuiTheme({
             fontWeight: '500',
         },
 
+        h2: {
+            fontFamily: ['Staatliches',
+            'Arial',
+            ].join(','),
+            fontSize: '3rem',
+            fontWeight: '500',
+            color: '#10492f',
+        },
+
         h3: {
             fontFamily: ['Staatliches',
             'Arial',

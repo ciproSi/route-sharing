@@ -31,12 +31,20 @@
     .route-data-container {
         width: 50vw;
     
+        .route-description {
+            margin-top: 1rem;
+        }
+        
         .route-data {
             display: flex;
             justify-content: space-between;
+            padding: 0.3rem;
             width: 80%;
+            margin-top: 0.5rem;
+            background-color: #e6a751;
+
             &__name {
-                font-size: 1.5em;
+            
             }
     
             &__item {
@@ -58,6 +66,8 @@
 }
 
 .route-images {
+    margin-top: 1rem;
+    
     img {
         width: 200px;
         border-radius: 4px;
