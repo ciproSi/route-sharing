@@ -10,13 +10,18 @@ import { Autorenew } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: 345,
-        minWidth: 345,
+        maxWidth: 180,
+        minWidth: 180,
         margin: 10,
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       },
     large: {
         width: theme.spacing(20),
         height: theme.spacing(20),
+        
     },
 
 }));
