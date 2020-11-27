@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     let avatar;
     
     if (review.user.photo !== null) {
-        console.log(review.user.name.charAt(0))
+        console.log(review.user)
         avatar = (
             <Avatar alt="Profile picture" src={ '/storage/users-images/' + review.user.photo } />
         )    

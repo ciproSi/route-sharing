@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Profile (props) 
 {
     
-    const [addNewDog, setAddNewDog] = useState(false);
     const user = useContext(UserContext);
+    const [addNewDog, setAddNewDog] = useState(false);
     const [profilePicture, setProfilePicture] = useState(null);
     const [dogs, setDogs] = useState(null);
     const [activeTab, setActiveTab] = useState();
@@ -47,6 +47,10 @@ export default function Profile (props)
     useEffect(() => {
         loadData();
     }, [user]) 
+
+    useEffect(() => {
+        props.fetchUser();
+    }, [profilePicture])
 
     const handleTab = (e) => {
         setActiveTab(e.target.innerHTML);

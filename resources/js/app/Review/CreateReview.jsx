@@ -51,7 +51,8 @@ export default function CreateReview (props) {
             'rating': response.data.rating,
             'text': response.data.text,
             'user': {'name': user.name,
-                     'surname': user.surname}
+                     'surname': user.surname,
+                    'photo': user.photo}
         });
 
         props.setReviews([...newReviews]);
