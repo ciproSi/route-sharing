@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&family=Staatliches&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{mix('css/app.css')}}">
-    <title>trek4dog</title>
+    <title>Trek4Dog</title>
 </head>
 <body>
     @yield('content')

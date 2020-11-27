@@ -1,9 +1,22 @@
 import React, {useState, useContext} from 'react';
 import {UserContext} from '../App/App.jsx';
 import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    description:{
+        maxWidth: 600,
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+      },
+  }));
 
 export default function CreateReview (props) {
+    const classes = useStyles();
     const [difficulty, setDifficulty] = useState('');
     const [rating, setRating] = useState('');
     const [text, setText] = useState('');
@@ -65,30 +78,53 @@ export default function CreateReview (props) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div className="formElement">
-                    <label htmlFor="difficulty">
-                        Difficulty
-                        <input type="text" name="difficulty" value={difficulty} onChange={ handleDifficultyChange } />
-                    </label>
-                </div>
-
-                <div className="formElement">
-                    <label htmlFor="rating">
-                        Rating
-                        <input type="text" name="rating" value={rating} onChange={ handleRatingChange } />
-                    </label>
-                </div>
-
-                <div className="formElement">
-                    <label htmlFor="text">
-                        Review
-                        <textarea name="text" id="review" cols="30" rows="10" value={text} onChange={ handleTextChange }></textarea>
-                    </label>
-                </div>
-
-                <button type="submit">Submit</button>
+            <Container maxWidth="xs">
+                <form onSubmit={ handleSubmit }>
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="difficulty"
+                    label="Difficulty"
+                    name="difficulty"
+                    autoComplete="difficulty"
+                    onChange={ handleDifficultyChange }
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="rating"
+                    label="Rating (1-5)"
+                    name="rating"
+                    autoComplete="rating"
+                    onChange={ handleRatingChange }
+                  />
+                  <TextField
+                        id="review"
+                        name="review"
+                        label="Your review"
+                        multiline
+                        fullWidth
+                        className={ classes.description }
+                        rows={8}
+                        variant="outlined"
+                        onChange={ handleTextChange }
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        className={ classes.submit }
+                        onClick={ handleSubmit }
+                    >
+                    Save your review
+                  </Button>
             </form>
+            </Container>
             </>
         )
 

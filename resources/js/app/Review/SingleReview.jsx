@@ -85,31 +85,3 @@ const useStyles = makeStyles((theme) => ({
     )
 
   }
-
-//   <ListItem alignItems="flex-start">
-//                 <ListItemAvatar>
-//                     { avatar }
-//                 </ListItemAvatar>
-//                 <ListItemText 
-//                     primary={ "Rating: " + review.rating }
-//                     secondary={
-//                         <React.Fragment>
-//                         <Typography
-//                             component="span"
-//                             variant="body2"
-//                             color="textPrimary"
-//                         >
-//                            {'by: '+ review.user.name + " " + review.user.surname + ': ' + review.text}
-//                         </Typography>
-//                             {/* <Typography>
-//                             {review.text}
-//                             </Typography> */}
-//                         </React.Fragment>
-//                     }
-//                 />
-//                 <ListItemText
-//                 primary={ 'Difficulty: ' + review.difficulty }
-                
-//                 />
-//             </ListItem>  
-//             <Divider className={ classes.divider } component="li" />
