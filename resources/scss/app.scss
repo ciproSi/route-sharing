@@ -60,6 +60,9 @@
 .route-images {
     img {
         width: 200px;
+        border-radius: 4px;
+        margin: 1em;
+
     }
    
 }
@@ -193,4 +196,12 @@ a {
 
 .route-addition-data {
     display: flex;
+}
+
+.difficulty-visibility-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 600px;
+
 }
