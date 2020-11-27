@@ -6,8 +6,16 @@ import SearchBox from '../SearchBox/SearchBox';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    header: {
+        textAlign: 'center',
+    }
+  }));
 
 const Search = () => {
+    const classes = useStyles();
     const [routes, setRoutes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [waitingForSearchInput, setWaitingForSearchInput] = useState(true);
@@ -36,20 +44,25 @@ const Search = () => {
 
     if (waitingForSearchInput) {
         return (
-            <Container maxWidth="xs">
-                <Typography variant="h1" component="h2">
-                    Find the best route for your best friend
-                </Typography>
-                <SearchBox handleSearchInput={ fetchData }/>
-                <Button
-                    type="submit"
-                    color="primary"
-                    fullWidth
-                    onClick={() => {fetchData('all')}}
-                >
-                    Show all routes
-                </Button>
-            </Container>
+            <div className="landing-page">
+                <div><img src="/storage/logo/Trek4dog_Logo_Green.svg" alt="trek4dog logo" width="200"/></div>
+                <Container maxWidth="sm">
+                        
+                        <Typography variant="h2" className={ classes.header }>
+                            Find the best route for your best friend
+                        </Typography>
+                    
+                    <SearchBox handleSearchInput={ fetchData }/>
+                    <Button
+                        type="submit"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {fetchData('all')}}
+                    >
+                        Show all routes
+                    </Button>
+                </Container>
+            </div>
             
         )
     } else if (loading) {

@@ -3,6 +3,21 @@
     margin: 0 auto;
 }
 
+.main-header {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+}
+
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
 .map {
     height: 100%;
     width: 100%;
