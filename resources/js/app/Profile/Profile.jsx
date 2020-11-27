@@ -7,6 +7,20 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import { UserContext } from '../App/App.jsx';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    cont: {
+        maxWidth: 250,
+        minWidth: 250,
+        margin: 10,
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+}));
 
 export default function Profile (props) 
 {
@@ -16,6 +30,7 @@ export default function Profile (props)
     const [profilePicture, setProfilePicture] = useState(null);
     const [dogs, setDogs] = useState(null);
     const [activeTab, setActiveTab] = useState();
+    const classes = useStyles();
 
     const loadData = async () => {
         if (user) {
@@ -72,11 +87,12 @@ export default function Profile (props)
         return (
             
             <div>
-                <Typography gutterBottom variant="h3" component="h2">
-                    { user.name } { user.surname }
-                </Typography>
-                <ProfilePicture userPhoto={ profilePicture } setProfilePicture={ setProfilePicture }/> 
-                
+                <Container maxWidth="s" className={classes.cont}>
+                    <Typography gutterBottom variant="h3" component="h2">
+                        { user.name } { user.surname }
+                    </Typography>
+                    <ProfilePicture userPhoto={ profilePicture } setProfilePicture={ setProfilePicture }/> 
+                </Container>            
                 
                 <div className="tabs">
                     <ButtonGroup color="secondary" variant="text" aria-label="outlined primary button group">
