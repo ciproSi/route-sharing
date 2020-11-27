@@ -205,3 +205,26 @@ a {
     max-width: 600px;
 
 }
+
+.single-review {
+    display: flex;
+    margin-bottom: 1rem;
+    padding-top: 0.5rem;
+
+    .review-content {
+        margin-left: 1.5rem;
+
+        &__main {
+            display: flex;
+
+            &__item {
+                margin-right: 3rem;
+            }
+
+        }
+
+
+
+
+    }
+}

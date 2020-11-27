@@ -42,7 +42,6 @@ export default function CreateReview (props) {
 
     if (response.status === 200) {
         const { reviews } = props;
-        console.log(reviews);
         let newReviews = [...reviews];
 
         newReviews.push({
@@ -54,7 +53,10 @@ export default function CreateReview (props) {
                      'surname': user.surname,
                     'photo': user.photo}
         });
+        // close the add review form
+        props.setAddReview(false);
 
+        // send the new review so it can display directly without refetching
         props.setReviews([...newReviews]);
     }
 }

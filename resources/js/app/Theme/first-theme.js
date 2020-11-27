@@ -37,7 +37,18 @@ const theme = createMuiTheme({
             fontSize: '1.5rem',
             fontWeight: '500',
             
-        }
+        },
+
+        h5: {
+            fontFamily: ['Staatliches',
+            'Arial',
+            ].join(','),
+            fontSize: '1rem',
+            fontWeight: '400',
+            color: '#10492f',
+            
+        },
+
     },
 
   });

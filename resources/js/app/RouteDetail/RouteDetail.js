@@ -35,7 +35,8 @@ const RouteDetail = () => {
     const [loading, setLoading] = useState(true);
     const [displayImagesOnMap, setDisplayImagesOnMap] = useState(false);
     const [reviews, setReviews] = useState(null);
-    const [createReviewElm, setCreateReviewElm] = useState();
+    // const [createReviewElm, setCreateReviewElm] = useState();
+    const [addReview, setAddReview] = useState(false);
     
     const fetchData = async () => {
         const response = await axios.get('/api/route/' + id);
@@ -51,6 +52,13 @@ const RouteDetail = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    let reviewForm;
+    if (addReview) {
+        reviewForm = (
+            <CreateReview reviews={ reviews } setReviews={ setReviews } setAddReview={ setAddReview } route_id={ data.route.id } />
+        )
+    }
 
     return (
         <div className="route-detail-container">
@@ -93,7 +101,7 @@ const RouteDetail = () => {
                             onClick={ () => {setDisplayImagesOnMap(!displayImagesOnMap)} }
                             color="primary"
                         >
-                            {
+                        {
                         displayImagesOnMap ? ('Hide images from map') : ('Show images on the map')
                         }
                         </Button>
@@ -113,10 +121,22 @@ const RouteDetail = () => {
                             Reviews:
                         </Typography>
                         
-                        <ReviewView reviews={ reviews } />
+                        {user &&
+                        <Button
+                            onClick={ () => {setAddReview(!addReview)} }
+                            color="primary"
+                        >
+                            {
+                            addReview ? ('Hide review form') : ('Add review')
+                            }
+                        </Button>
                         
-                        { user && <CreateReview reviews={ reviews } setReviews={ setReviews } route_id={ data.route.id } />}
-                       
+                        }
+                        {/* form for adding review (element constructed above return contionaly) */}
+                        { reviewForm }
+                        
+                        {/* show all reviews */}
+                        <ReviewView reviews={ reviews } />
 
                     </div>
 
