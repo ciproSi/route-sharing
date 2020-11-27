@@ -26,15 +26,15 @@ const useStyles = makeStyles((theme) => ({
 
     const { review } = props;
 
-    console.log(review);
-
-
     let avatar;
+    
     if (review.user.photo !== null) {
+        console.log(review.user.name.charAt(0))
         avatar = (
             <Avatar alt="Profile picture" src={ '/storage/users-images/' + review.user.photo } />
         )    
     } else {
+        console.log(review.user.name.charAt(0))
         // avatar place holder is user's initials
         const userNameFirstLetter = review.user.name.charAt(0);
         const userSurnameFirstLetter = review.user.surname.charAt(0);
