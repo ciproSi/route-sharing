@@ -104,10 +104,10 @@ const Header = (props) => {
                         >
                             <Avatar alt="User profile picture" src={ '/storage/users-images/' + user.photo } />
                         </IconButton>
+                        
                         <Typography onClick={ handleProfile }>
                             {user.name} {user.surname}
                         </Typography>
-                    {/* </div> */}
                     <Menu
                         id="menu-appbar"
                         anchorEl={ anchorEl }

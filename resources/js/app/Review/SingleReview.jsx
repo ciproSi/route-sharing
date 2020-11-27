@@ -10,13 +10,14 @@ import ReviewView from './ReviewView';
 
 const useStyles = makeStyles((theme) => ({
     divider: {
-        // marginTop: theme.spacing(0.8),
-        // marginBottom: theme.spacing(0.8),
         maxWidth: 600,
     },
     inline: {
         display: 'inline',
-      },
+    },
+    author: {
+        fontSize: theme.spacing(1.8),
+    }
     
   }));
 
@@ -29,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     let avatar;
     
     if (review.user.photo !== null) {
-        console.log(review.user)
         avatar = (
             <Avatar alt="Profile picture" src={ '/storage/users-images/' + review.user.photo } />
         )    
@@ -46,37 +46,70 @@ const useStyles = makeStyles((theme) => ({
 
     return(
         <>
-             <ListItem alignItems="flex-start">
-                <ListItemAvatar>
+             
+            <div className="single-review">
+                <div className="single-review__avatar">
                     { avatar }
-                </ListItemAvatar>
-                <ListItemText 
-                    primary={ "Rating: " + review.rating }
-                    secondary={
-                        <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body2"
-                            color="textPrimary"
-                        >
-                           {'by: '+ review.user.name + " " + review.user.surname + ': ' + review.text}
+                </div>
+                <div className="review-content">
+                    <div className="review-content__main">
+                        <div className="review-content__main__item">
+                            <Typography variant="h5" className={ classes.reviewMain }>
+                                Rating: { review.rating }
+                            </Typography>
+                        </div>
+                        <div className="review-content__main__item">
+                            <Typography variant="h5" className={ classes.reviewMain }>
+                                Difficulty: { review.difficulty } 
+                            </Typography>
+                        </div>
+                    </div>
+                    <div className="review-content__author">
+                        <Typography className={ classes.author }>
+                            By: { review.user.name } { review.user.surname }
                         </Typography>
-                            {/* <Typography>
-                            {review.text}
-                            </Typography> */}
-                        </React.Fragment>
-                    }
-                />
-                <ListItemText
-                primary={ 'Difficulty: ' + review.difficulty }
-                
-                />
-            </ListItem>  
-            <Divider className={ classes.divider } component="li" />
+                    </div>
+                    <div className="review-content__text">
+                        <Typography>
+                            { review.text }
+                        </Typography>
+                    </div>
+
+                </div>
+                 
+
+             </div>
+             <Divider className={ classes.divider } />
+             
         </>
     )
 
-
-
-
   }
+
+//   <ListItem alignItems="flex-start">
+//                 <ListItemAvatar>
+//                     { avatar }
+//                 </ListItemAvatar>
+//                 <ListItemText 
+//                     primary={ "Rating: " + review.rating }
+//                     secondary={
+//                         <React.Fragment>
+//                         <Typography
+//                             component="span"
+//                             variant="body2"
+//                             color="textPrimary"
+//                         >
+//                            {'by: '+ review.user.name + " " + review.user.surname + ': ' + review.text}
+//                         </Typography>
+//                             {/* <Typography>
+//                             {review.text}
+//                             </Typography> */}
+//                         </React.Fragment>
+//                     }
+//                 />
+//                 <ListItemText
+//                 primary={ 'Difficulty: ' + review.difficulty }
+                
+//                 />
+//             </ListItem>  
+//             <Divider className={ classes.divider } component="li" />
