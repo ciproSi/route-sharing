@@ -106,7 +106,7 @@ export default function Profile (props)
                     <ButtonGroup color="secondary" variant="text" aria-label="outlined primary button group">
                         <Button onClick={ handleTab }>Your routes</Button>
                         <Button onClick={ handleTab }>Your dogs</Button>
-                        <Button onClick={ handleTab }>Bucket list</Button>
+                        {/* <Button onClick={ handleTab }>Bucket list</Button> */}
                     </ButtonGroup>
                 </div>
             { tabElm }
